@@ -1,2 +1,8 @@
 *.exe
-.vscode
+**/.vscode/
+**/__pycache__/
+**/.idea
+**/*.pyc
+**/venv/
+**/*.pdf
+**/*.docx
