@@ -1,9 +1,5 @@
 # Lab Exercise 2
 
-**Shrey Jain
-2447249
-1MCA-B**
-
 ### 1. Write a Python program to create a module that performs basic list opera tions. Follow the instructions given below to write the program: 
 
 (a) Create a module, named ‘module_ListFunction’ which has the following functions: 
