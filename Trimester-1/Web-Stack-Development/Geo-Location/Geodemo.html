@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        .alert{
+            margin-top: 1em;
+            margin-bottom: 1em;
+            background-color: red;
+            color: white;
+        }
+        .d-none{
+            display: none;
+        }
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <h1>Geolocation Demo</h1>
+    <p>Timestamp: <span id="timestamp"></span></p>
+    <p>Latitude : <span id="latitude"></span></p>
+    <p>Longitude: <span id="longitude"></span></p>
+    <p>Accuracy : <span id="accuracy"></span></p>
+    <p>Altitude: <span id="altitude"></span></p>
+    <p>Altitude Accuracy: <span id="altiaccuracy"></span></p>
+    <p>Heading : <span id="heading"></span></p>
+    <p>Speed: <span id="speed"></span></p>
+    <button id="clickme"> Click Here</button>
+    <div id="errorArea" class="alert d-none"></div>
+    <div id="map"></div>
+    <!-- <a href="https://www.openstreetmap.org/?mlat=12.93432&mlon=77.60535#map=19/12.93432/77.60535"> Click For Map</a> -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        let getloc=document.getElementById("clickme");
+        getloc.addEventListener('click',event=>{
+            if('geolocation' in navigator){
+                navigator.geolocation.getCurrentPosition(pos=>{
+                    document.getElementById("timestamp").innerText=new Date(pos.timestamp);
+                    document.getElementById("latitude").innerText=pos.coords.latitude;
+                    document.getElementById("longitude").innerText=pos.coords.longitude;
+                    document.getElementById("accuracy").innerText=pos.coords.accuracy;
+                    document.getElementById("altitude").innerText=(pos.coords.altitude ? pos.coords.altitude : "N/A");
+                    document.getElementById("altiaccuracy").innerText=(pos.coords.altitudeAccuracy ? pos.coords.altitudeAccuracy : "N/A");
+                    document.getElementById("heading").innerText=pos.coords.heading;
+                    document.getElementById("speed").innerText=pos.coords.speed;
+
+                    // Display the map
+                    var map = L.map('map').setView([pos.coords.latitude, pos.coords.longitude], 13);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    }).addTo(map);
+                    L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(map)
+                        .bindPopup('You are here')
+                        .openPopup();
+
+                    document.getElementById("map").classList.remove("d-none");
+
+                },error=>{
+                    let msg="";
+                    switch(error.code){
+                        case error.PERMISSION_DENIED:
+                            msg="User Denied Permission";
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            msg="Can't Locate User's Position";
+                            break;
+                        case error.TIMEOUT:
+                            msg="Time out";
+                            break;
+                    }
+                 let errorArea=document.getElementById("errorArea");
+                 errorArea.innerHTML=msg;
+                 errorArea.classList.remove("d-none");
+
+
+                })
+
+            }else{
+                console.log("Update your browser to get Geolocation Object");
+            }
+
+        })
+    </script>
+    
+</body>
+</html>
