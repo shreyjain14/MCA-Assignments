@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark" lang="en" style="background: var(--bs-emphasis-color);">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home - Brand</title>
+    <meta name="description" content="Formula 1 Stats">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <script src="https://kit.fontawesome.com/726e8484a5.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span>F1 Stats</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+                    <li class="nav-item"></li>
+                    <li class="nav-item"></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header class="pt-5">
+        <div class="container pt-4 pt-xl-5">
+            <div class="row pt-5">
+                <div class="col-md-8 text-center text-md-start mx-auto">
+                    <div class="text-center">
+                        <h1 class="display-4 fw-bold mb-5">Formula 1&nbsp;<span class="underline">Stats</span>.</h1>
+                        <p class="fs-5 text-muted mb-5">Stats for Formula 1</p>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-10 mx-auto">
+                    <div class="text-center position-relative"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="container py-4 py-xl-5">
+            <div class="carousel slide" data-bs-ride="false" id="carousel-1">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><img class="w-100 d-block" src="assets/img/USA_Circuit.avif" alt="Slide Image"></div>
+                    <div class="carousel-item"><img class="w-100 d-block" src="assets/img/Great_Britain_Circuit.avif" alt="Slide Image"></div>
+                    <div class="carousel-item"><img class="w-100 d-block" src="assets/img/Bahrain-circuit.png" alt="Slide Image"></div>
+                </div>
+                <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-bs-slide="prev"><span class="carousel-control-prev-icon" style="color: var(--bs-emphasis-color);text-shadow: 0px 0px;--bs-body-color: var(--bs-body-color);--bs-body-bg: var(--bs-body-color);"></span><span class="visually-hidden">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-bs-slide="next" style="color: rgb(0,0,0);"><span class="carousel-control-next-icon" style="color: var(--bs-emphasis-color);"></span><span class="visually-hidden">Next</span></a></div>
+                <div class="carousel-indicators"><button type="button" data-bs-target="#carousel-1" data-bs-slide-to="0" class="active"></button> <button type="button" data-bs-target="#carousel-1" data-bs-slide-to="1"></button> <button type="button" data-bs-target="#carousel-1" data-bs-slide-to="2"></button></div>
+            </div>
+        </div>
+    </section>
+    <section class="py-4 py-xl-5">
+        <div class="container">
+            <div class="bg-primary border rounded border-0 border-primary overflow-hidden">
+                <div class="row g-0">
+                    <div class="col-md-6 d-flex flex-column justify-content-center">
+                        <div class="text-white p-4 p-md-5">
+                            <h2 class="fw-bold mb-3">Lorem ipsum</h2>
+                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat culpa minima distinctio quibusdam vero odit illum esse, impedit non, minus possimus laborum blanditiis iste, debitis eaque ipsam fugit saepe adipisci.</p>
+                            <div class="my-3"><a class="btn btn-secondary me-2 mt-2" role="button" href="#"><i class="fa-solid fa-user"></i></a><a class="btn btn-light mt-2" role="button" href="#"><i class="fa-solid fa-code"></i></a></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 order-first order-md-last" style="min-height: 250px;"><img class="w-100 h-100 fit-contain pt-5 pt-md-0" src="assets/img/illustrations/web-development.svg"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-4 py-xl-5">
+        <div class="container">
+            <div id="map" style="height: 400px; width: 100%; margin-bottom: 20px;"></div>
+            
+            <!-- Add this new div for the SVG image -->
+            <div class="text-center mt-4">
+                <h3>Singapore Street Circuit</h3>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Singapore_street_circuit_v3.svg" 
+                     alt="Singapore Street Circuit" 
+                     class="img-fluid" 
+                     style="max-width: 100%; height: auto;">
+            </div>
+        </div>
+    </section>
+
+    <footer></footer>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/startup-modern.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var map = L.map('map').setView([12.9359582,77.6055775], 13);
+    
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+    
+            var marker = L.marker([12.9359582,77.6055775]).addTo(map);
+            
+            marker.on('click', function() {
+                var url = 'https://maps.app.goo.gl/hEPNgWjaAVQzBkME8';
+                window.open(url, '_blank');
+            });
+    
+            // Optional: Center the map on the marker when the page loads
+            map.panTo(marker.getLatLng());
+        });
+    </script>
+</body>
+
+</html>
