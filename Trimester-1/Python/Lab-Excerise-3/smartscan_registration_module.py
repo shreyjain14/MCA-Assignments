@@ -1,0 +1,11 @@
+db = []
+
+create_user = lambda name, email: {'name': name, 'email': email}
+insert_user = lambda user: (db.append(user), True)[1]
+get_all_users = lambda: db
+
+def RegisterUserFromSmartScan(data):
+    data_f = data.split(',')
+    user = create_user(data_f[0], data_f[1])
+    insert_user(user)
+    print(get_all_users())
