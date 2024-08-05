@@ -1,3 +1,5 @@
+from PIL import Image
+
 db = []
 
 create_user = lambda name, email: {'name': name, 'email': email}
@@ -9,3 +11,14 @@ def RegisterUserFromSmartScan(data):
     user = create_user(data_f[0], data_f[1])
     insert_user(user)
     print(get_all_users())
+
+def scan_qr_code(image_path):
+    import pyzbar.pyzbar as pyzbar
+    
+    image = Image.open(image_path)
+    decoded_objects = pyzbar.decode(image)
+    
+    for obj in decoded_objects:
+        data = obj.data.decode("utf-8")
+
+        RegisterUserFromSmartScan(data)
