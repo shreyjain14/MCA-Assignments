@@ -13,13 +13,13 @@ int main()
     struct employee emp1;
     struct employee emp2;
 
-    strcpy(emp1.name, "John");
+    strcpy(emp1.name, "Shrey");
     emp1.id = 1;
-    emp1.salary = 10000;
+    emp1.salary = 100000;
 
-    strcpy(emp2.name, "Alex");
+    strcpy(emp2.name, "Anjaney");
     emp2.id = 2;
-    emp2.salary = 20000;
+    emp2.salary = 75000;
 
     printf("Employee 1\n");
     printf("Name: %s\n", emp1.name);
