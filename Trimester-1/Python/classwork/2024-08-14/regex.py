@@ -69,3 +69,11 @@ if match:
     print("Pattern found at index", match.start())
 else:
     print("Pattern not found")
+
+
+# Example 8: Max number of splits
+text = "Hello, world! This is a sample text."
+pattern = r"\W+"  # Matches one or more non-word characters
+
+split_text = re.split(pattern, text, maxsplit=2)
+print("Split text:", split_text)
