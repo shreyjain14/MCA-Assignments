@@ -1,0 +1,21 @@
+<!ELEMENT formula_one_circuits (circuit+)>
+<!ELEMENT circuit (name, type, direction, location, country, length, turns, grand_prix, seasons, grands_prix_held)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT type (#PCDATA)>
+<!ELEMENT direction (#PCDATA)>
+<!ELEMENT location (#PCDATA)>
+<!ELEMENT country (#PCDATA)>
+<!ELEMENT length (#PCDATA)>
+<!ELEMENT turns (#PCDATA)>
+<!ELEMENT grand_prix (#PCDATA)>
+<!ELEMENT seasons (#PCDATA)>
+<!ELEMENT grands_prix_held (#PCDATA)>
+
+<!ENTITY km "kilometers">
+<!ENTITY mi "miles">
+<!ENTITY gp "Grand Prix">
+<!ENTITY F1 "Formula One">
+<!ENTITY FIA "Fédération Internationale de l'Automobile">
+<!ENTITY max_length "10">
+<!ENTITY min_length "2">
+<!ENTITY max_turns "30">

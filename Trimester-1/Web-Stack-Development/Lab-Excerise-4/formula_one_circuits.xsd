@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.example.com/formula_one_circuits"
+           xmlns:f1="http://www.example.com/formula_one_circuits"
+           elementFormDefault="qualified">
+
+  <xs:element name="formula_one_circuits">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="circuit" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" type="xs:string"/>
+              <xs:element name="type" type="xs:string"/>
+              <xs:element name="direction" type="xs:string"/>
+              <xs:element name="location" type="xs:string"/>
+              <xs:element name="country" type="xs:string"/>
+              <xs:element name="length">
+                <xs:simpleType>
+                  <xs:restriction base="xs:decimal">
+                    <xs:minInclusive value="2"/>
+                    <xs:maxInclusive value="10"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="turns">
+                <xs:simpleType>
+                  <xs:restriction base="xs:integer">
+                    <xs:minInclusive value="1"/>
+                    <xs:maxInclusive value="30"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="grand_prix" type="xs:string"/>
+              <xs:element name="seasons" type="xs:string"/>
+              <xs:element name="grands_prix_held" type="xs:integer"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

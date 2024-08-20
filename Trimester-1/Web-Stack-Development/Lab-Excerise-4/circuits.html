@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula One Circuits</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formula One Circuits</h1>
+    <table id="circuitsTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Direction</th>
+                <th>Location</th>
+                <th>Country</th>
+                <th>Length (km)</th>
+                <th>Turns</th>
+                <th>Grand Prix</th>
+                <th>Seasons</th>
+                <th>Grands Prix Held</th>
+            </tr>
+        </thead>
+        <tbody id="circuitsTableBody">
+        </tbody>
+    </table>
+
+    <script>
+        function loadXMLDoc() {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    displayCircuits(this);
+                }
+            };
+            xmlhttp.open("GET", "formula_one_circuits.xml", true);
+            xmlhttp.send();
+        }
+
+        function displayCircuits(xml) {
+            var i;
+            var xmlDoc = xml.responseXML;
+            var table = "";
+            var circuits = xmlDoc.getElementsByTagName("circuit");
+            for (i = 0; i < circuits.length; i++) {
+                table += "<tr>";
+                table += "<td>" + circuits[i].getElementsByTagName("name")[0].childNodes[0].nodeValue + "</td>";
+                table += "<td>" + circuits[i].getElementsByTagName("type")[0].childNodes[0].nodeValue + "</td>";
+                table += "<td>" + circuits[i].getElementsByTagName("direction")[0].childNodes[0].nodeValue + "</td>";
+                table += "<td>" + circuits[i].getElementsByTagName("location")[0].childNodes[0].nodeValue + "</td>";
+                table += "<td>" + circuits[i].getElementsByTagName("country")[0].childNodes[0].nodeValue + "</td>";
+                table += "<td>" + circuits[i].getElementsByTagName("length")[0].childNodes[0].nodeValue + "</td>";
+                table += "<td>" + circuits[i].getElementsByTagName("turns")[0].childNodes[0].nodeValue + "</td>";
+                table += "<td>" + circuits[i].getElementsByTagName("grand_prix")[0].childNodes[0].nodeValue + "</td>";
+                table += "<td>" + circuits[i].getElementsByTagName("seasons")[0].childNodes[0].nodeValue + "</td>";
+                table += "<td>" + circuits[i].getElementsByTagName("grands_prix_held")[0].childNodes[0].nodeValue + "</td>";
+                table += "</tr>";
+            }
+            document.getElementById("circuitsTableBody").innerHTML = table;
+        }
+
+        loadXMLDoc();
+    </script>
+</body>
+</html>

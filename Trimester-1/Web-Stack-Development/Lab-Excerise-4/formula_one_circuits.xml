@@ -1,0 +1,30 @@
+<!DOCTYPE formula_one_circuits SYSTEM "formula_one_circuits.dtd">
+<f1:formula_one_circuits 
+    xmlns:f1="http://www.example.com/formula_one_circuits" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.example.com/formula_one_circuits formula_one_circuits.xsd">
+    <f1:circuit> 
+        <f1:name>Adelaide Street Circuit</f1:name>
+        <f1:type>Street circuit</f1:type>
+        <f1:direction>Clockwise</f1:direction>
+        <f1:location>Adelaide</f1:location>
+        <f1:country>Australia</f1:country>
+        <f1:length>3.780</f1:length>
+        <f1:turns>16</f1:turns>
+        <f1:grand_prix>Australian Grand Prix</f1:grand_prix>
+        <f1:seasons>1985-1995</f1:seasons>
+        <f1:grands_prix_held>11</f1:grands_prix_held>
+    </f1:circuit>
+    <f1:circuit>
+        <f1:name>Ain-Diab Circuit</f1:name>
+        <f1:type>Road circuit</f1:type>
+        <f1:direction>Clockwise</f1:direction>
+        <f1:location>Casablanca</f1:location>
+        <f1:country>Morocco</f1:country>
+        <f1:length>7.618</f1:length>
+        <f1:turns>18</f1:turns>
+        <f1:grand_prix>Moroccan Grand Prix</f1:grand_prix>
+        <f1:seasons>1958</f1:seasons>
+        <f1:grands_prix_held>1</f1:grands_prix_held>
+    </f1:circuit>
+</f1:formula_one_circuits>
