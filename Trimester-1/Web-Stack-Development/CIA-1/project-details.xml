@@ -1,20 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
-
-    <xs:element name="project">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="title" type="xs:string"/>
-                <xs:element name="description" type="xs:string"/>
-                <xs:element name="technologies">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="technology" type="xs:string" maxOccurs="unbounded"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-
-</xs:schema>
+<project>
+    <title>Recipe Sharing Website</title>
+    <description>Website for sharing recipes</description>
+    <technologies>
+        <technology>HTML</technology>
+        <technology>CSS</technology>
+        <technology>JavaScript</technology>
+        <technology>XML</technology>
+        <technology>Bootstrap</technology>
+    </technologies>
+</project>
