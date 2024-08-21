@@ -1,8 +1,8 @@
 import lxml.etree as ET
 
 # Load XML and XSD
-xml_doc = ET.parse("formula_one_circuits.xml")  # Replace with your XML file name
-xsd_doc = ET.parse("formula_one_circuits.xsd")  # Replace with your XSD file name
+xml_doc = ET.parse("formula_one_circuits.xml") 
+xsd_doc = ET.parse("formula_one_circuits.xsd")
 xmlschema = ET.XMLSchema(xsd_doc)
 
 # Validate
@@ -15,7 +15,7 @@ else:
     print("XML data is valid according to the schema.")
 
     # Proceed with transformation if valid
-    xslt = ET.parse("transform.xsl")  # Replace with your XSL file name
+    xslt = ET.parse("transform.xsl")
     transform = ET.XSLT(xslt)
     newdom = transform(xml_doc)
     with open('output.html', 'wb') as f:
