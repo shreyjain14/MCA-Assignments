@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mx-auto mt-8 p-4">
+        <h1 class="text-2xl font-semibold mb-4">User Registration</h1>
+        <form id="registrationForm">
+            <div class="mb-4">
+                <label for="fullName" class="block mb-2">Full Name</label>
+                <input type="text" id="fullName" class="border border-gray-300 p-2 w-full" required>
+                <span id="fullNameError" class="text-red-500"></span>
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block mb-2">Email</label>
+                <input type="email" id="email" class="border border-gray-300 p-2 w-full" required>
+                <span id="emailError" class="text-red-500"></span>
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block mb-2">Password</label>
+                <input type="password" id="password" class="border border-gray-300 p-2 w-full" required>
+                <span id="passwordError" class="text-red-500"></span>
+            </div>
+            <div class="mb-4">
+                <label for="confirmPassword" class="block mb-2">Confirm Password</label>
+                <input type="password" id="confirmPassword" class="border border-gray-300 p-2 w-full" required>
+                <span id="confirmPasswordError" class="text-red-500"></span>
+            </div>
+            <div class="mb-4">
+                <label for="dateOfBirth" class="block mb-2">Date of Birth (YYYY-MM-DD)</label>
+                <input type="date" id="dateOfBirth" class="border border-gray-300 p-2 w-full" required>
+                <span id="dateOfBirthError" class="text-red-500"></span>
+            </div>
+            <button type="submit" id="submitButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" disabled>
+                Register
+            </button>
+        </form>
+    </div>
+
+    <script src="script.js"></script> </body>
+</html>
