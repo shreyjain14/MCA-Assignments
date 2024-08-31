@@ -10,7 +10,6 @@ def RegisterUserFromSmartScan(data):
     data_f = data.split(',')
     user = create_user(data_f[0], data_f[1])
     insert_user(user)
-    print(get_all_users())
 
 def scan_qr_code(image_path):
     import pyzbar.pyzbar as pyzbar
@@ -22,3 +21,8 @@ def scan_qr_code(image_path):
         data = obj.data.decode("utf-8")
 
         RegisterUserFromSmartScan(data)
+
+def print_users():
+    for user in get_all_users():
+        print(user)
+        
