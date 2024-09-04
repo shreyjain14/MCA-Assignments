@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map with Marker and Route</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        // Create map
+        var map = L.map('map').setView([12.935549, 77.605885], 13);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
+            maxZoom: 18,
+        }).addTo(map);
+
+        // Add marker
+        var marker = L.marker([12.935549, 77.605885]).addTo(map);
+        var marker = L.marker([12.935549, 77.505885]).addTo(map);
+
+        // Add route
+        var route = L.polyline([[12.935549, 77.605885], [12.935549, 77.505885]], {color: 'red'}).addTo(map);
+    </script>
+</body>
+</html>
