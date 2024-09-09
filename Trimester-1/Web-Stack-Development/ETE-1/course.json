@@ -1,0 +1,62 @@
+[
+    {
+        "courseId": "C101",
+        "title": "Introduction to Web Development",
+        "instructor": "John Doe",
+        "duration": "10 Hours",
+        "rating": 4.5,
+        "category": "Web Development",
+        "price": "$50",
+        "enrolled": "2500"
+    },
+    {
+        "courseId": "C102",
+        "title": "Introduction to Python Programming",
+        "instructor": "Jane Doe",
+        "duration": "12 Hours",
+        "rating": 4.8,
+        "category": "Programming",
+        "price": "$60",
+        "enrolled": "3000"
+    },
+    {
+        "courseId": "C103",
+        "title": "Introduction to Machine Learning",
+        "instructor": "Joe",
+        "duration": "15 Hours",
+        "rating": 4.9,
+        "category": "Machine Learning",
+        "price": "$70",
+        "enrolled": "3500"
+    },
+    {
+        "courseId": "C104",
+        "title": "Introduction to Data Science",
+        "instructor": "Shrey",
+        "duration": "18 Hours",
+        "rating": 4.7,
+        "category": "Data Science",
+        "price": "$80",
+        "enrolled": "4000"
+    },
+    {
+        "courseId": "C105",
+        "title": "Introduction to Cyber Security",
+        "instructor": "Anjaney",
+        "duration": "20 Hours",
+        "rating": 4.6,
+        "category": "Cyber Security",
+        "price": "$90",
+        "enrolled": "4500"
+    },
+    {
+        "courseId": "C106",
+        "title": "Introduction to Cloud Computing",
+        "instructor": "David",
+        "duration": "22 Hours",
+        "rating": 4.5,
+        "category": "Cloud Computing",
+        "price": "$100",
+        "enrolled": "5000"
+    }
+]

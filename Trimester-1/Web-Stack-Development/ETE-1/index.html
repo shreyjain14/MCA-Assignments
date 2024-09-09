@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- loading tailwindcss and ajax -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coursera Courses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+</head>
+<body class="bg-gray-100 p-8">
+
+    <!-- main body div -->
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">Coursera Courses</h1>
+        
+        <!-- search field -->
+        <div class="mb-4">
+            <input type="text" id="search" placeholder="Search courses..." class="w-full p-2 border rounded">
+        </div>
+        
+        <!-- sort by field -->
+        <div class="mb-4">
+            <label for="sort" class="mr-2">Sort by:</label>
+            <select id="sort" class="p-2 border rounded">
+                <option value="name">Name</option>
+                <option value="id">ID</option>
+            </select>
+        </div>
+        
+        <!-- courses container -->
+        <div id="courses" class="space-y-4"></div>
+        
+        <!-- pagination buttons -->
+        <div class="mt-4 flex justify-between items-center">
+            <button id="prev" class="bg-blue-500 text-white px-4 py-2 rounded">Previous</button>
+            <span id="page-info"></span>
+            <button id="next" class="bg-blue-500 text-white px-4 py-2 rounded">Next</button>
+        </div>
+        <div class="mt-4 flex justify-between items-center" id="loading">
+            
+        </div>
+    </div>
+
+    <!-- script to fetch courses and update display -->
+    <script>
+        const coursesPerPage = 10;
+        let currentPage = 1;
+        let allCouses = [];
+
+        var loading = document.getElementById('loading');
+
+        // fetch courses from the API
+        async function fetchCourses() {
+            loading.innerHTML = 'Loading...';
+            try {
+                const response = await axios.get('https://api.coursera.org/api/courses.v1');
+                allCourses = response.data.elements;
+                updateDisplay();
+            } catch (error) {
+                console.error('Error fetching courses:', error);
+                loading.innerHTML = error;
+            }
+        }
+
+        // update the displayed courses based on filter and sort options
+        function updateDisplay() {
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            const sortBy = document.getElementById('sort').value;
+            
+            let filteredCourses = allCourses.filter(course => 
+                course.name.toLowerCase().includes(searchTerm) ||
+                course.id.toLowerCase().includes(searchTerm)
+            );
+            
+            filteredCourses.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
+            
+            const startIndex = (currentPage - 1) * coursesPerPage;
+            const endIndex = startIndex + coursesPerPage;
+            const coursesToDisplay = filteredCourses.slice(startIndex, endIndex);
+            
+            const coursesContainer = document.getElementById('courses');
+            coursesContainer.innerHTML = coursesToDisplay.map(course => `
+                <div class="bg-white p-4 rounded shadow">
+                    <h2 class="text-xl font-semibold">${course.name}</h2>
+                    <p class="text-gray-600">ID: ${course.id}</p>
+                    <p class="text-gray-600">Type: ${course.courseType}</p>
+                </div>
+            `).join('');
+            
+            // update pagination buttons
+            document.getElementById('page-info').textContent = `Page ${currentPage} of ${Math.ceil(filteredCourses.length / coursesPerPage)}`;
+            document.getElementById('prev').disabled = currentPage === 1;
+            document.getElementById('next').disabled = endIndex >= filteredCourses.length;
+        }
+
+        // event listener for search
+        document.getElementById('search').addEventListener('input', () => {
+            currentPage = 1;
+            updateDisplay();
+        });
+
+        // event listener for sort
+        document.getElementById('sort').addEventListener('change', updateDisplay);
+
+        // event listeners for pagination
+        document.getElementById('prev').addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                updateDisplay();
+            }
+        });
+
+        // event listeners for pagination
+        document.getElementById('next').addEventListener('click', () => {
+            if (currentPage < Math.ceil(allCourses.length / coursesPerPage)) {
+                currentPage++;
+                updateDisplay();
+            }
+        });
+
+        fetchCourses();
+    </script>
+</body>
+</html>
