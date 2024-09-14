@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harry Potter Book Catalogue</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-6">Harry Potter Book Catalogue</h1>
+        
+        <div class="mb-4">
+            <input type="text" id="searchInput" placeholder="Search books..." class="w-full p-2 border rounded">
+        </div>
+        
+        <div class="mb-4">
+            <select id="sortSelect" class="p-2 border rounded">
+                <option value="title">Sort by Title</option>
+                <option value="releaseDate">Sort by Release Date</option>
+                <option value="pages">Sort by Number of Pages</option>
+            </select>
+        </div>
+        
+        <div id="bookList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+        
+        <div id="pagination" class="mt-6 flex justify-center"></div>
+        
+        <div id="loading" class="text-center py-4">Loading...</div>
+        <div id="error" class="text-center py-4 text-red-500 hidden"></div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
