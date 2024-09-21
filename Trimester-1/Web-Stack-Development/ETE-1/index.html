@@ -54,7 +54,8 @@
         async function fetchCourses() {
             loading.innerHTML = 'Loading...';
             try {
-                const response = await axios.get('https://api.coursera.org/api/courses.v1');
+                // const response = await axios.get('https://api.coursera.org/api/courses.v1');
+                const response = await axios.get('api.json');
                 allCourses = response.data.elements;
                 updateDisplay();
             } catch (error) {
