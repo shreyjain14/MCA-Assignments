@@ -1,0 +1,13 @@
+Date,Region,Product_Category,Units_Sold,Revenue
+2023-01-15,North,Electronics,50,5000
+2023-02-12,South,Clothing,30,1500
+2023-03-22,North,Groceries,100,3000
+2023-04-10,South,Electronics,40,4000
+2023-05-05,North,Clothing,60,1800
+2023-06-18,South,Groceries,120,3600
+2023-07-25,North,Furniture,20,6000
+2023-08-03,South,Furniture,30,7000
+2023-09-10,North,Electronics,70,7000
+2023-10-14,South,Clothing,45,2000
+2023-11-21,North,Groceries,90,2700
+2023-12-30,South,Electronics,60,6000
