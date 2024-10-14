@@ -34,7 +34,7 @@ class Member {
             Book book = borrowedBooks.get(i);
             System.out.println("Title: " + book.title);
             System.out.println("Author: " + book.author);
-            System.out.println("BISN: " + book.bisn);
+            System.out.println("ISBN: " + book.isbn);
             System.out.println("---------------------");
         }
     }
