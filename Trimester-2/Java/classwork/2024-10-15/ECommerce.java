@@ -9,10 +9,10 @@ class ECommerce {
         product1.display();
 
         Product product2 = new Product("Product 2", 200.0);
-        product2.display();
+        product2.display("test product!");
 
         Product product3 = new Product(product2);
-        product3.display();
+        product3.display("Copy of Product 2");
 
     }
 

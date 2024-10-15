@@ -59,4 +59,13 @@ class Product {
         System.out.println("===================================");
     }
 
+    public void display(String message) {
+        System.out.println("===================================");
+        System.out.println("Message: " + message);
+        System.out.println("Product ID: " + id);
+        System.out.println("Product Name: " + name);
+        System.out.println("Product Price: " + price);
+        System.out.println("===================================");
+    }
+
 }
