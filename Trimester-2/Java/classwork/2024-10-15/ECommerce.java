@@ -2,6 +2,9 @@ class ECommerce {
 
     public static void main(String[] args) {
 
+        Product product0 = new Product();
+        product0.display();
+
         Product product1 = new Product(1L, "Product 1", 100.0);
         product1.display();
 

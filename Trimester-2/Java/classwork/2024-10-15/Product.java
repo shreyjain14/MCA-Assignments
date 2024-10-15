@@ -4,6 +4,12 @@ class Product {
     private String name;
     private Double price;
 
+    public Product() {
+        this.id = null;
+        this.name = "";
+        this.price = 0.0;
+    }
+
     public Product(Long id, String name, Double price) {
         this.id = id;
         this.name = name;
