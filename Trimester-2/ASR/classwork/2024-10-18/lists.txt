@@ -1,0 +1,5 @@
+Lists in R
+Lists are those objects in R Programming which contain the elements of different types. like strings numbers are vectors or another list inside it. It can also contain a matrix or a fn as its element.
+List is created using the List command. 
+this lists are 1d hetrogeneous data structures an the other operations like accessing the elemets of the list or changing the values are similar to the operations on a vector.
+

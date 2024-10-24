@@ -1,0 +1,2 @@
+Matricies are those matricies wheere the elemts ar arreanges in ta 2d layout though we can create matricies of locaical values strings etc. they may not be of any use as matricies are used for atrthimetic operations. Thus matricies should contain only numbers.
+It is created using the matrix command.
