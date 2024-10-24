@@ -31,6 +31,11 @@ employee_data$Average <- rowMeans(employee_data[, 3:5])
 print("Employee Data Frame with Averages:")
 print(employee_data)
 
+# 5.1. Calculate the average performance score per department
+department_averages <- aggregate(employee_data[, 3:5], by = list(employee_data$Department), FUN = mean)
+print("Department-wise Average Performance Scores:")
+print(department_averages)
+
 # 6. Add a new employee's performance data
 new_employee <- data.frame(Name = "Rakesh", Department = "IT", performance_Q1 = 85, performance_Q2 = 89, performance_Q3 = 87)
 new_employee$Average <- rowMeans(new_employee[, 3:5])

@@ -102,6 +102,16 @@ Karan    66.33333
 Kavita   86.00000
 Lakshman 80.00000
 > 
+> # 5.1. Calculate the average performance score per department
+> department_averages <- aggregate(employee_data[, 3:5], by = list(employee_data$Department), FUN = mean)
+> print("Department-wise Average Performance Scores:")
+[1] "Department-wise Average Performance Scores:"
+> print(department_averages)
+  Group.1 performance_Q1 performance_Q2 performance_Q3
+1      HR          86.50          89.25          88.25
+2      IT          87.75          87.75          88.75
+3   Sales          75.25          77.25          76.50
+> 
 > # 6. Add a new employee's performance data
 > new_employee <- data.frame(Name = "Rakesh", Department = "IT", performance_Q1 = 85, performance_Q2 = 89, performance_Q3 = 87)
 > new_employee$Average <- rowMeans(new_employee[, 3:5])
