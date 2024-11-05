@@ -2,21 +2,21 @@
 #include <stdlib.h>
 
 struct node {
-    int data;
+    int productID;
     struct node *next;
 };
 struct node *head = NULL;
 
-void insertAtBegining(int data, char name) {
+void insertAtBegining(int productID) {
     struct node *newNode = (struct node *) malloc(sizeof(struct node));
-    newNode->data = data;
+    newNode->productID = productID;
     newNode->next = head;
     head = newNode;
 }
 
-void insertAtEnd(int data) {
+void insertAtEnd(int productID) {
     struct node *newNode = (struct node *) malloc(sizeof(struct node));
-    newNode->data = data;
+    newNode->productID = productID;
     newNode->next = NULL;
     if (head == NULL) {
         head = newNode;
@@ -29,9 +29,9 @@ void insertAtEnd(int data) {
     }
 }
 
-void insertAtPosition(int data, int position) {
+void insertAtPosition(int productID, int position) {
     struct node *newNode = (struct node *) malloc(sizeof(struct node));
-    newNode->data = data;
+    newNode->productID = productID;
     if (position == 1) {
         newNode->next = head;
         head = newNode;
@@ -64,17 +64,17 @@ void deleteAtPosition(int position) {
 void display() {
     struct node *temp = head;
     while (temp != NULL) {
-        printf("%d ", temp->data);
+        printf("%d ", temp->productID);
         temp = temp->next;
     }
     printf("\n");
 }
 
-void locateElement(int data) {
+void locateElement(int productID) {
     struct node *temp = head;
     int position = 1;
     while (temp != NULL) {
-        if (temp->data == data) {
+        if (temp->productID == productID) {
             printf("Product ID found at position %d\n", position);
             return;
         }
@@ -84,9 +84,7 @@ void locateElement(int data) {
     printf("Product ID not found\n");
 }
 
-
 int main() {
-
     while (1) {
         int choice;
         printf("========================\n");
@@ -102,24 +100,23 @@ int main() {
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
-        switch (choice)
-        {
+        switch (choice) {
         case 1:
-            printf("Enter product: ");
+            printf("Enter product ID: ");
             int product;
             scanf("%d", &product);
             insertAtBegining(product);
             break;
         
         case 2:
-            printf("Enter product: ");
+            printf("Enter product ID: ");
             int product2;
             scanf("%d", &product2);
             insertAtEnd(product2);
             break;
 
         case 3:
-            printf("Enter product: ");
+            printf("Enter product ID: ");
             int product3;
             scanf("%d", &product3);
             printf("Enter position: ");
@@ -140,7 +137,7 @@ int main() {
             break;
 
         case 6:
-            printf("Enter product: ");
+            printf("Enter product ID: ");
             int product4;
             scanf("%d", &product4);
             locateElement(product4);
@@ -154,7 +151,5 @@ int main() {
             printf("Invalid choice\n");
             break;
         }
-
     }
-
 }
