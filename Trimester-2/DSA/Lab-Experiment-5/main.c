@@ -12,11 +12,11 @@ int main()
     {
 
         printf("\n=================================================\n");
-        printf("1. Binary Search\n");
-        printf("2. Linear Search\n");
-        printf("3. Sentinel Search\n");
-        printf("4. Bubble Sort\n");
-        printf("5. Insertion Sort\n");
+        printf("1. Binary Search ProductIDs\n");
+        printf("2. Linear Search ProductIDs\n");
+        printf("3. Sentinel Search ProductIDs\n");
+        printf("4. Bubble Sort ProsuctIDs\n");
+        printf("5. Insertion Sort ProsuctIDs\n");
         printf("6. Exit\n");
         printf("=================================================\n");
 
