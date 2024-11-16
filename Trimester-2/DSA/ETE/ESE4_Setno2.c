@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>  // Include for strcpy()
+#include <string.h>  
 
 struct node {
     char *name;
