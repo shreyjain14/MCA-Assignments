@@ -1,12 +1,9 @@
 package com.ecommerce.product;
 
-public interface BaseProduct {
-
-    Long id = null;
-    String name = null;
-    String description = null;
+public interface OfflineProduct extends BaseProduct{
 
     public int stockAvailable();
-    public int buy();
+    public int addStock(int stock);
+    public int removeStock(int stock);
 
 }

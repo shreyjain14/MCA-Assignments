@@ -1,12 +1,9 @@
 package com.ecommerce.product;
 
-public interface OfflineProduct {
+public interface OnlineProduct extends BaseProduct{
 
-    Long id = null;
-    String name = null;
-    String description = null;
-
-    public int stockAvailable();
-    public int buy();
+    public void update(String name, int price);
+    public void increasePriceByPercentage(int percentage);
+    public void decreasePriceByPercentage(int percentage);
 
 }
