@@ -1,5 +1,6 @@
 #load the csv file
-mortality_data <- read.csv("C:/Users/Shrey/Desktop/CODING/mca/Trimester-2/ASR/Lab-3-4/mortality.csv")
+# mortality_data <- read.csv("C:/Users/Shrey/Desktop/CODING/mca/Trimester-2/ASR/Lab-3-4/mortality.csv")
+mortality_data <- read.csv("C:/Users/shrey/Documents/CODING/MCA-Assignments/Trimester-2/ASR/Lab-3-4/mortality.csv")
 
 #preview the data 
 head(mortality_data)
