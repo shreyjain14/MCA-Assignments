@@ -9,12 +9,12 @@ public class OfflineProductImpl implements OfflineProduct {
     protected Integer stock = 0;
 
     public OfflineProductImpl(String name) {
-        this.id = 1L; // get from db
+        this.id = -1L; // get from db
         this.name = name;
     }
 
     public OfflineProductImpl(String name, Integer stock) {
-        this.id = 1L; // get from db
+        this.id = -1L; // get from db
         this.name = name;
         this.stock = stock;
     }

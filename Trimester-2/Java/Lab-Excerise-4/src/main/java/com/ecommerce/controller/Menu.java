@@ -25,6 +25,12 @@ public class Menu {
             "Remove Stock"
     );
 
+    final public List<String> buyProductMenuItems = List.of(
+            "Buy Offline Product",
+            "Buy Online Product",
+            "Buy Mixed Product"
+    );
+
     public Menu() {}
 
     public void printMenu(List<String> menuList) {
@@ -32,8 +38,8 @@ public class Menu {
         System.out.println("-----------------------------------------------");
         for (String menuItem : menuList) {
             System.out.println(idx + ". " + menuItem);
-            idx ++;
-        };
+            idx++;
+        }
         System.out.println(idx + ". Exit");
         System.out.println("-----------------------------------------------");
         System.out.print("Enter Option: ");
@@ -43,15 +49,12 @@ public class Menu {
         int menuLength = menuList.size();
         if (option == menuLength + 1) {
             return 1;
-        }
-        else if (1 > option || option > menuLength) {
+        } else if (1 > option || option > menuLength) {
             System.out.println("Invalid Choice!");
             return 0;
-        }
-        else {
+        } else {
             // TODO RUN OPERATION
             return 0;
         }
     }
-
-};
+}
