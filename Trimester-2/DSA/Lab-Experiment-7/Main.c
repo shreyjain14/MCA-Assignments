@@ -34,6 +34,22 @@ void postfix(struct product *p) {
     }
 }
 
+void level_order(struct product *p) {
+    struct product *queue[100];
+    int front = 0, rear = 0;
+    queue[rear++] = p;
+    while (front < rear) {
+        struct product *temp = queue[front++];
+        printf("%d %s %f\n", temp->id, temp->name, temp->price);
+        if (temp->left != NULL) {
+            queue[rear++] = temp->left;
+        }
+        if (temp->right != NULL) {
+            queue[rear++] = temp->right;
+        }
+    }
+}
+
 void add_node() {
     struct product *new_node = (struct product *)malloc(sizeof(struct product));
     printf("Enter Product ID: ");
@@ -68,10 +84,60 @@ void add_node() {
     }
 }
 
+void delete_root() {
+    if (head == NULL) {
+        printf("The tree is empty.\n");
+        return;
+    }
+
+    struct product *temp = head;
+    struct product *parent = NULL;
+
+    // Find the rightmost node in the left subtree or the leftmost node in the right subtree
+    if (head->left != NULL) {
+        temp = head->left;
+        parent = head;
+        while (temp->right != NULL) {
+            parent = temp;
+            temp = temp->right;
+        }
+        head->id = temp->id;
+        strcpy(head->name, temp->name);
+        head->price = temp->price;
+        if (parent->right == temp) {
+            parent->right = temp->left;
+        } else {
+            parent->left = temp->left;
+        }
+    } else if (head->right != NULL) {
+        temp = head->right;
+        parent = head;
+        while (temp->left != NULL) {
+            parent = temp;
+            temp = temp->left;
+        }
+        head->id = temp->id;
+        strcpy(head->name, temp->name);
+        head->price = temp->price;
+        if (parent->left == temp) {
+            parent->left = temp->right;
+        } else {
+            parent->right = temp->right;
+        }
+    } else {
+        free(head);
+        head = NULL;
+        printf("The tree is now empty.\n");
+        return;
+    }
+
+    free(temp);
+}
+
 int main() {
     int choice;
     while (1) {
-        printf("1. Add Node\n2. Prefix\n3. Infix\n4. Postfix\n5. Exit\nEnter your choice: ");
+        printf("1. Add Node\n2. Prefix\n3. Infix\n4. Postfix\n5. level order\n6. Exit\nEnter your choice: ");
         scanf("%d", &choice);
         switch (choice) {
             case 1:
@@ -87,6 +153,9 @@ int main() {
                 postfix(head);
                 break;
             case 5:
+                level_order(head);
+                break;
+            case 6:
                 exit(0);
             default:
                 printf("Invalid Choice\n");

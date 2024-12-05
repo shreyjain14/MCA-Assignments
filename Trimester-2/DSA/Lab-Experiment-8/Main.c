@@ -68,6 +68,55 @@ void add_node() {
     }
 }
 
+int height(struct product *node) {
+    if (node == NULL) {
+        return 0;
+    } else {
+        int left_height = height(node->left);
+        int right_height = height(node->right);
+        if (left_height > right_height) {
+            return (left_height + 1);
+        } else {
+            return (right_height + 1);
+        }
+    }
+}
+
+struct product* minValueNode(struct product* node) {
+    struct product* current = node;
+    while (current && current->left != NULL) {
+        current = current->left;
+    }
+    return current;
+}
+
+struct product* delete_node(struct product* root, int id) {
+    if (root == NULL) return root;
+
+    if (id < root->id) {
+        root->left = delete_node(root->left, id);
+    } else if (id > root->id) {
+        root->right = delete_node(root->right, id);
+    } else {
+        if (root->left == NULL) {
+            struct product *temp = root->right;
+            free(root);
+            return temp;
+        } else if (root->right == NULL) {
+            struct product *temp = root->left;
+            free(root);
+            return temp;
+        }
+
+        struct product* temp = minValueNode(root->right);
+        root->id = temp->id;
+        strcpy(root->name, temp->name);
+        root->price = temp->price;
+        root->right = delete_node(root->right, temp->id);
+    }
+    return root;
+}
+
 struct product* search(int id) {
     struct product *temp = head;
     while (temp != NULL) {
