@@ -1,45 +1,102 @@
 package com.shreyjain.tax;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class TaxSlabsTest {
+class TaxSlabsTest {
 
     private final TaxSlabs taxSlabs = new TaxSlabs();
 
     @Test
-    public void testInvalidIncomeAndAge() {
-        assertEquals(-1, taxSlabs.getTaxSlab(17, 200000), "Invalid age below 18 should return -1");
-        assertEquals(-1, taxSlabs.getTaxSlab(25, -10000), "Negative income should return -1");
+    void testValidIncomeBelowExemption() {
+        assertEquals(0, taxSlabs.getTaxSlab(30, 200000), "Valid income below exemption failed.");
     }
 
     @Test
-    public void testTaxSlabsForBelow60() {
-        assertEquals(0, taxSlabs.getTaxSlab(25, 250000), "Income up to 2,50,000 should have 0% tax");
-        assertEquals(5, taxSlabs.getTaxSlab(30, 300000), "Income 2,50,001 to 5,00,000 should have 5% tax");
-        assertEquals(10, taxSlabs.getTaxSlab(45, 600000), "Income 5,00,001 to 7,50,000 should have 10% tax");
-        assertEquals(15, taxSlabs.getTaxSlab(35, 800000), "Income 7,50,001 to 10,00,000 should have 15% tax");
-        assertEquals(20, taxSlabs.getTaxSlab(29, 1100000), "Income 10,00,001 to 12,50,000 should have 20% tax");
-        assertEquals(25, taxSlabs.getTaxSlab(50, 1300000), "Income 12,50,001 to 15,00,000 should have 25% tax");
-        assertEquals(30, taxSlabs.getTaxSlab(40, 1600000), "Income above 15,00,000 should have 30% tax");
+    void testIncomeAtExemptionLimit() {
+        assertEquals(0, taxSlabs.getTaxSlab(25, 250000), "Income at exemption limit failed.");
+    }
+
+    // GIVEN: 25000
+    @Test
+    void testTaxableIncomeBelow60() {
+        assertEquals(22500, taxSlabs.getTaxSlab(35, 600000), "Taxable income for below 60 years failed.");
+    }
+
+    // GIVEN: 25000
+    @Test
+    void testTaxableIncomeSeniorCitizen() {
+        assertEquals(20000, taxSlabs.getTaxSlab(70, 600000), "Taxable income for Senior Citizen failed.");
     }
 
     @Test
-    public void testTaxSlabsForSeniorCitizens() {
-        assertEquals(0, taxSlabs.getTaxSlab(65, 300000), "Income up to 3,00,000 should have 0% tax for seniors");
-        assertEquals(5, taxSlabs.getTaxSlab(70, 400000), "Income 3,00,001 to 5,00,000 should have 5% tax for seniors");
-        assertEquals(10, taxSlabs.getTaxSlab(61, 600000), "Income 5,00,001 to 7,50,000 should have 10% tax for seniors");
-        assertEquals(15, taxSlabs.getTaxSlab(75, 800000), "Income 7,50,001 to 10,00,000 should have 15% tax for seniors");
-        assertEquals(20, taxSlabs.getTaxSlab(60, 1100000), "Income 10,00,001 to 12,50,000 should have 20% tax for seniors");
-        assertEquals(25, taxSlabs.getTaxSlab(68, 1300000), "Income 12,50,001 to 15,00,000 should have 25% tax for seniors");
-        assertEquals(30, taxSlabs.getTaxSlab(72, 1600000), "Income above 15,00,000 should have 30% tax for seniors");
+    void testTaxableIncomeSuperSenior() {
+        assertEquals(20000, taxSlabs.getTaxSlab(85, 600000), "Taxable income for Super Senior failed.");
     }
 
     @Test
-    public void testTaxSlabsForSuperSeniorCitizens() {
-        assertEquals(0, taxSlabs.getTaxSlab(85, 500000), "Income up to 5,00,000 should have 0% tax for super seniors");
-        assertEquals(20, taxSlabs.getTaxSlab(90, 800000), "Income 5,00,001 to 10,00,000 should have 20% tax for super seniors");
-        assertEquals(30, taxSlabs.getTaxSlab(82, 1100000), "Income above 10,00,000 should have 30% tax for super seniors");
+    void testIncomeAbove15Lakh() {
+        assertEquals(337500, taxSlabs.getTaxSlab(45, 2000000), "Income above 15 lakh failed.");
+    }
+
+    @Test
+    void testInvalidNegativeIncome() {
+        assertEquals(-1, taxSlabs.getTaxSlab(40, -10000), "Invalid negative income failed.");
+    }
+
+    @Test
+    void testZeroIncome() {
+        assertEquals(-1, taxSlabs.getTaxSlab(50, 0), "Zero income failed.");
+    }
+
+    @Test
+    void testInvalidAgeBelow18() {
+        assertEquals(-1, taxSlabs.getTaxSlab(15, 500000), "Invalid age below 18 failed.");
+    }
+
+    @Test
+    void testInvalidAgeTooHigh() {
+        assertEquals(-1, taxSlabs.getTaxSlab(150, 500000), "Invalid age too high failed.");
+    }
+
+    @Test
+    void testPathBelow60Years() {
+        assertEquals(2500, taxSlabs.getTaxSlab(25, 300000), "Path testing for below 60 years failed.");
+    }
+
+    @Test
+    void testPathSeniorCitizen() {
+        assertEquals(5000, taxSlabs.getTaxSlab(70, 400000), "Path testing for Senior Citizen failed.");
+    }
+
+    @Test
+    void testPathSuperSeniorCitizen() {
+        assertEquals(40000, taxSlabs.getTaxSlab(85, 700000), "Path testing for Super Senior Citizen failed.");
+    }
+
+    @Test
+    void testBoundaryExemptionLimit() {
+        assertEquals(0, taxSlabs.getTaxSlab(30, 250000), "Boundary testing for exemption limit failed.");
+    }
+
+    // GIVEN: 562500 CHANGED TO: 487500
+    @Test
+    void testHighIncomePath() {
+        assertEquals(487500, taxSlabs.getTaxSlab(55, 2500000), "High-income path failed.");
+    }
+
+    @Test
+    void testErrorHandlingInvalidIncome() {
+        assertEquals(-1, taxSlabs.getTaxSlab(40, -100000), "Error handling for invalid income failed.");
+    }
+
+    @Test
+    void testErrorHandlingInvalidAge() {
+        assertEquals(-1, taxSlabs.getTaxSlab(16, 600000), "Error handling for invalid age failed.");
+    }
+
+    @Test
+    void testValidEdgeInput() {
+        assertEquals(0, taxSlabs.getTaxSlab(80, 500000), "Boundary testing for valid edge input failed.");
     }
 }
