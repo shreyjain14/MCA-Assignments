@@ -17,13 +17,13 @@ class TaxSlabsTest {
         assertEquals(0, taxSlabs.getTaxSlab(25, 250000), "Income at exemption limit failed.");
     }
 
-    // GIVEN: 25000
+    // GIVEN: 25000 SHOULD BE: 22500
     @Test
     void testTaxableIncomeBelow60() {
         assertEquals(22500, taxSlabs.getTaxSlab(35, 600000), "Taxable income for below 60 years failed.");
     }
 
-    // GIVEN: 25000
+    // GIVEN: 25000 SHOULD BE: 20000
     @Test
     void testTaxableIncomeSeniorCitizen() {
         assertEquals(20000, taxSlabs.getTaxSlab(70, 600000), "Taxable income for Senior Citizen failed.");
