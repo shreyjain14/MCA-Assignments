@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 struct Node {
     int data;
@@ -95,28 +96,60 @@ void printInorder(struct Node* node) {
 }
 
 int main() {
-    int inorder[] = {4, 2, 5, 1, 6, 3};
-    int preorder[] = {1, 2, 4, 5, 3, 6};
-    int postorder[] = {4, 5, 2, 6, 3, 1};
-    int levelOrder[] = {1, 2, 3, 4, 5, 6};
-    int n = sizeof(inorder) / sizeof(inorder[0]);
+    FILE *file = fopen("order.txt", "r");
+    if (file == NULL) {
+        printf("Error opening file\n");
+        return 1;
+    }
 
+    int inorder[1023], preorder[1023], postorder[1023], levelOrder[1023];
+    int n = 0;
+
+    while (fscanf(file, "%d", &inorder[n]) != EOF) {
+        n++;
+        if (fgetc(file) == '\n') break;
+    }
+
+    for (int i = 0; i < n; i++) {
+        fscanf(file, "%d", &preorder[i]);
+    }
+
+    for (int i = 0; i < n; i++) {
+        fscanf(file, "%d", &postorder[i]);
+    }
+
+    for (int i = 0; i < n; i++) {
+        fscanf(file, "%d", &levelOrder[i]);
+    }
+
+    fclose(file);
+    #include <time.h>
+
+    clock_t start, end;
+    double cpu_time_used;
+
+    // Measure time for buildTreeFromInPre
+    start = clock();
     int preIndex = 0;
     struct Node* root1 = buildTreeFromInPre(inorder, preorder, 0, n - 1, &preIndex);
-    printf("Inorder traversal of the constructed tree (from Inorder and Preorder):\n");
-    printInorder(root1);
-    printf("\n");
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC * 1000;
+    printf("Time taken to build tree from Inorder and Preorder: %f ms\n", cpu_time_used);
 
+    // Measure time for buildTreeFromInPost
+    start = clock();
     int postIndex = n - 1;
     struct Node* root2 = buildTreeFromInPost(inorder, postorder, 0, n - 1, &postIndex);
-    printf("Inorder traversal of the constructed tree (from Inorder and Postorder):\n");
-    printInorder(root2);
-    printf("\n");
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC * 1000;
+    printf("Time taken to build tree from Inorder and Postorder: %f ms\n", cpu_time_used);
 
+    // Measure time for buildTreeFromPreLevel
+    start = clock();
     struct Node* root3 = buildTreeFromPreLevel(preorder, levelOrder, n);
-    printf("Inorder traversal of the constructed tree (from Preorder and Level Order):\n");
-    printInorder(root3);
-    printf("\n");
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC * 1000;
+    printf("Time taken to build tree from Preorder and Level Order: %f ms\n", cpu_time_used);
 
     return 0;
 }

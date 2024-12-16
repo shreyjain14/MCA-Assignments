@@ -1,8 +1,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define MAX_NAME 50
+
+int quickComparison = 0, quickSwaps = 0;
+int mergeComparison = 0;
 
 struct Product {
     int id;
@@ -31,11 +35,13 @@ int partition(struct Product arr[], int low, int high) {
     int i = (low - 1);
 
     for (int j = low; j <= high - 1; j++) {
-        if (arr[j].price <= pivot.price) {
+        quickComparison++;
+        if (arr[j].id <= pivot.id) {
             i++;
             struct Product temp = arr[i];
             arr[i] = arr[j];
             arr[j] = temp;
+            quickSwaps++;
         }
     }
     struct Product temp = arr[i + 1];
@@ -72,6 +78,7 @@ void merge(struct Product arr[], int left, int mid, int right) {
     k = left;
 
     while (i < n1 && j < n2) {
+        mergeComparison++;
         if (L[i].id <= R[j].id) {
             arr[k] = L[i];
             i++;
@@ -105,28 +112,54 @@ void printArray(struct Product arr[], int size) {
     printf("\n");
 }
 
+void readProductsFromFile(struct Product **products, int *n, const char *filename) {
+    FILE *file = fopen(filename, "r");
+    if (!file) {
+        perror("Failed to open file");
+        exit(EXIT_FAILURE);
+    }
+
+    fscanf(file, "%d", n);
+    *products = (struct Product *)malloc(*n * sizeof(struct Product));
+    for (int i = 0; i < *n; i++) {
+        fscanf(file, "%d %f %s", &(*products)[i].id, &(*products)[i].price, (*products)[i].name);
+    }
+
+    fclose(file);
+}
+
 int main() {
-    struct Product products[] = {
-        {1, 29.99, "Product A"},
-        {3, 15.50, "Product B"},
-        {2, 45.75, "Product C"},
-        {5, 9.99, "Product D"},
-        {4, 32.50, "Product E"}
-    };
-    int n = sizeof(products) / sizeof(products[0]);
+    struct Product *products;
+    int n;
+    readProductsFromFile(&products, &n, "products.txt");
 
-    printf("Original Array:\n");
-    printArray(products, n);
+    // printf("Original Array:\n");
+    // printArray(products, n);
 
-    // Quick Sort (sorting by price)
+    clock_t start, end;
+    double cpu_time_used;
+
+    // Quick Sort (sorting by ID)
+    start = clock();
     quickSort(products, 0, n - 1);
-    printf("After Quick Sort (by price):\n");
-    printArray(products, n);
+    end = clock();
+    cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
+    printf("After Quick Sort (by ID):\n");
+    // printArray(products, n);
+    printf("Quick Sort Time: %f seconds\n", cpu_time_used);
+    printf("Quick Sort Comparisons: %d\n", quickComparison);
+    printf("Quick Sort Swaps: %d\n", quickSwaps);
 
     // Merge Sort (sorting by ID)
+    start = clock();
     mergeSort(products, 0, n - 1);
+    end = clock();
+    cpu_time_used = ((double)(end - start)) / CLOCKS_PER_SEC;
     printf("After Merge Sort (by ID):\n");
-    printArray(products, n);
+    // printArray(products, n);
+    printf("Merge Sort Time: %f seconds\n", cpu_time_used);
+    printf("Merge Sort Comparisons: %d\n", mergeComparison);
 
+    free(products);
     return 0;
 }
