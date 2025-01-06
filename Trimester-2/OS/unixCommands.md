@@ -72,24 +72,16 @@
      cat -n file.txt
      ```
 
-9. **`nano`** - **Edit Files**
+9. **`cp`** - **Copy Files/Directories**
 
-   - **Description**: Opens the Nano text editor to edit files.
+   - **Flags**:
+     - `-r`: Copy directories recursively.
    - **Example**:
      ```bash
-     nano file.txt
+     cp -r folder_name /destination
      ```
 
-10. **`cp`** - **Copy Files/Directories**
-
-    - **Flags**:
-      - `-r`: Copy directories recursively.
-    - **Example**:
-      ```bash
-      cp -r folder_name /destination
-      ```
-
-11. **`mv`** - **Move/Rename Files**
+10. **`mv`** - **Move/Rename Files**
 
     - **Description**: Moves or renames files or directories.
     - **Example**:
@@ -97,7 +89,7 @@
       mv old_name.txt new_name.txt
       ```
 
-12. **`head`** - **View First Few Lines**
+11. **`head`** - **View First Few Lines**
 
     - **Flags**:
       - `-n`: Specify the number of lines.
@@ -106,7 +98,7 @@
       head -n 5 file.txt
       ```
 
-13. **`tail`** - **View Last Few Lines**
+12. **`tail`** - **View Last Few Lines**
 
     - **Flags**:
       - `-n`: Specify the number of lines.
@@ -115,7 +107,7 @@
       tail -n 5 file.txt
       ```
 
-14. **`chmod`** - **Change File Permissions**
+13. **`chmod`** - **Change File Permissions**
 
     - **Flags**:
       - `u`: User, `g`: Group, `o`: Others.
@@ -125,23 +117,24 @@
       chmod u+x script.sh
       ```
 
-15. **`ls -l`** - **View File Permissions**
+14. **`ls -l`** - **View File Permissions**
 
     - **Description**: Lists files in a detailed format showing permissions.
     - **Example**:
       ```bash
       ls -l
       ```
-16. **`df`** - **View Disk Space Usage**
 
-   - **Flags**:
-     - `-h`: Human-readable output.
-   - **Example**:
-     ```bash
-     df -h
-     ```
+15. **`df`** - **View Disk Space Usage**
 
-17. **`du`** - **Estimate File/Folder Sizes**
+- **Flags**:
+  - `-h`: Human-readable output.
+- **Example**:
+  ```bash
+  df -h
+  ```
+
+16. **`du`** - **Estimate File/Folder Sizes**
 
     - **Flags**:
       - `-h`: Human-readable output.
@@ -150,7 +143,7 @@
       du -h
       ```
 
-18. **`wget`** - **Download Files**
+17. **`wget`** - **Download Files**
 
     - **Description**: Downloads files from the web.
     - **Example**:
@@ -158,7 +151,7 @@
       wget https://example.com/file.txt
       ```
 
-19. **`uptime`** - **System Uptime**
+18. **`uptime`** - **System Uptime**
 
     - **Description**: Displays how long the system has been running.
     - **Example**:
@@ -166,7 +159,7 @@
       uptime
       ```
 
-20. **`date`** - **Current Date/Time**
+19. **`date`** - **Current Date/Time**
     - **Description**: Displays the current date and time.
     - **Example**:
       ```bash
@@ -244,13 +237,14 @@
      ```bash
      kill 12345
      ```
+
 9. **`ping`** - **Test Network Connectivity**
 
-    - **Description**: Sends packets to test network connectivity.
-    - **Example**:
-      ```bash
-      ping google.com
-      ```
+   - **Description**: Sends packets to test network connectivity.
+   - **Example**:
+     ```bash
+     ping google.com
+     ```
 
 10. **`curl`** - **Fetch Content from URLs**
 
@@ -261,8 +255,6 @@
       ```bash
       curl -O https://example.com/file.txt
       ```
-
-
 
 11. **`tar`** - **Archive Files**
 
@@ -342,8 +334,16 @@
       ```
 
 20. **`history`** - **Command History**
+
     - **Description**: Displays previously run commands.
     - **Example**:
       ```bash
       history
+      ```
+
+21. **`vim`** - **Terminal Based Text Editor**
+    - **Description**: Displays a text editor.
+    - **Example**:
+      ```bash
+      vim
       ```
