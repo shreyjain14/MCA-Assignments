@@ -1,5 +1,3 @@
-### **Ashvita’s Commands (20)**
-
 1. **`pwd`** - **Print Working Directory**
 
    - **Description**: Displays the full path of the current directory.
@@ -167,8 +165,6 @@
       ```
 
 ---
-
-### **Shrey’s Commands (20)**
 
 1. **`find`** - **Search for Files/Directories**
 
@@ -347,3 +343,20 @@
       ```bash
       vim
       ```
+    - Visual Mode:
+      - `x` - delete character
+      - `dd` - delete a line
+      - Move using the `h, j , k, l` keys
+      - `u` - undo
+      - `+p` - Paste
+    - Command Mode `:`:
+      - `:q` - quit
+      - `:q!` - quit without saving
+      - `:wq` - save and quit
+      - `:w` - save
+      - `:set number` - add line numbers
+      - `:<number>` - go to line
+      - `:!<any linux command>` - will run that command  inside vim
+      - `:Ex` - to go the vim file manager
+    - Menu Mode:
+      - `%` - to create a new file
