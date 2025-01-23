@@ -19,14 +19,17 @@ func main() {
 	// msg := fmt.Sprintf("Age: %d Name: %s\n", age, name)
 	// fmt.Println(msg)
 
-	var age3 float32
-	var name1 string
+	// var age3 float32
+	// var name1 string
 
 	// fmt.Print("Enter your age: ")
 	// fmt.Scan(&age3)
 
 	// fmt.Print("Enter your name: ")
-	// fmt.Scan(&name1)
+	// // fmt.Scan(&name1)
 
-	fmt.Printf("Age: %f Name: %s\n", age3, name1)
+	// fmt.Printf("Age: %f Name: %s\n", age3, name1)
+
+	var abc complex64
+	fmt.Printf("%v", abc)
 }
