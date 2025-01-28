@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strings"
+)
 
 func main() {
 	var productID int
@@ -8,25 +13,49 @@ func main() {
 	var price float64
 	var productName string
 	var category string
-	var inStock bool
 
-	fmt.Print("Enter Product ID: ")
-	fmt.Scan(&productID)
+	reader := bufio.NewReader(os.Stdin)
+
+	for {
+		fmt.Print("Enter Product ID: ")
+		_, err := fmt.Scanf("%d\n", &productID)
+		if err != nil {
+			fmt.Println("Please enter a valid integer for Product ID")
+			fmt.Scanln()
+			continue
+		}
+		break
+	}
 
 	fmt.Print("Enter Product Name: ")
-	fmt.Scan(&productName)
+	productName, _ = reader.ReadString('\n')
+	productName = strings.TrimSpace(productName)
 
 	fmt.Print("Enter Product Category: ")
-	fmt.Scan(&category)
+	category, _ = reader.ReadString('\n')
+	category = strings.TrimSpace(category)
 
-	fmt.Print("Enter Price: ")
-	fmt.Scan(&price)
+	for {
+		fmt.Print("Enter Price: ")
+		_, err := fmt.Scanf("%f\n", &price)
+		if err != nil {
+			fmt.Println("Please enter a valid float for Price")
+			fmt.Scanln()
+			continue
+		}
+		break
+	}
 
-	fmt.Print("Enter Quantity: ")
-	fmt.Scan(&quantity)
-
-	fmt.Print("Is product in stock (true/false): ")
-	fmt.Scan(&inStock)
+	for {
+		fmt.Print("Enter Quantity: ")
+		_, err := fmt.Scanf("%d\n", &quantity)
+		if err != nil {
+			fmt.Println("Please enter a valid integer for Quantity")
+			fmt.Scanln()
+			continue
+		}
+		break
+	}
 
 	if quantity > 0 {
 		fmt.Println("Product is available")
@@ -46,4 +75,11 @@ func main() {
 	default:
 		fmt.Println("Unknown category")
 	}
+
+	fmt.Printf("\nProduct Details:\n")
+	fmt.Printf("ID: %d\n", productID)
+	fmt.Printf("Name: %s\n", productName)
+	fmt.Printf("Category: %s\n", category)
+	fmt.Printf("Price: %.2f\n", price)
+	fmt.Printf("Quantity: %d\n", quantity)
 }
