@@ -30,6 +30,7 @@ func main() {
 
 	// fmt.Printf("Age: %f Name: %s\n", age3, name1)
 
-	var abc complex64
-	fmt.Printf("%v", abc)
+	var abc = 12.3
+	abc1 := int(abc)
+	fmt.Printf("%v", abc1)
 }
