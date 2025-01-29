@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="16dp" tools:context=".MainActivity">
+
+    <!-- Number Input -->
+    <EditText android:id="@+id/numberInput" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:layout_marginBottom="16dp" android:hint="Enter a number" android:inputType="textNoSuggestions" />
+
+    <!-- Horizontal LinearLayout 1 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+
+        <Button android:id="@+id/clear" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="C" />
+
+        <Button android:id="@+id/parenthesis" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="()" />
+
+        <Button android:id="@+id/percentage" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="%" />
+
+        <Button android:id="@+id/divide" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="/" />
+    </LinearLayout>
+
+    <!-- Horizontal LinearLayout 2 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+
+        <Button android:id="@+id/seven" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="7" />
+
+        <Button android:id="@+id/eight" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="8" />
+
+        <Button android:id="@+id/nine" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="9" />
+
+        <Button android:id="@+id/multiply" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="*" />
+    </LinearLayout>
+
+    <!-- Horizontal LinearLayout 3 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+
+        <Button android:id="@+id/four" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="4" />
+
+        <Button android:id="@+id/five" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="5" />
+
+        <Button android:id="@+id/six" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="6" />
+
+        <Button android:id="@+id/subtract" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="-" />
+    </LinearLayout>
+
+    <!-- Horizontal LinearLayout 4 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+
+        <Button android:id="@+id/one" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="1" />
+
+        <Button android:id="@+id/two" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="2" />
+
+        <Button android:id="@+id/three" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="3" />
+
+        <Button android:id="@+id/plus" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="+" />
+    </LinearLayout>
+
+    <!-- Horizontal LinearLayout 5 -->
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal">
+
+        <Button android:id="@+id/zerozero" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="00" />
+
+        <Button android:id="@+id/zero" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="0" />
+
+        <Button android:id="@+id/dot" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="." />
+
+        <Button android:id="@+id/equals" style="@style/SquareButton" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:text="=" />
+    </LinearLayout>
+
+</LinearLayout>
