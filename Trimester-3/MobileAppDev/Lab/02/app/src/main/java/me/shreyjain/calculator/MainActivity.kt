@@ -3,7 +3,9 @@ package me.shreyjain.calculator
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import net.objecthunter.exp4j.ExpressionBuilder
 
 class MainActivity : AppCompatActivity() {
@@ -16,23 +18,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    
+
         numberInput = findViewById(R.id.numberInput)
-    
+
         // Set up numeric click listeners
         setNumericOnClickListener()
-        
+
         // Set up operator click listeners
         findViewById<Button>(R.id.multiply).setOnClickListener { onOperator(it as Button) }
         findViewById<Button>(R.id.divide).setOnClickListener { onOperator(it as Button) }
         findViewById<Button>(R.id.plus).setOnClickListener { onOperator(it as Button) }
         findViewById<Button>(R.id.subtract).setOnClickListener { onOperator(it as Button) }
-        findViewById<Button>(R.id.percentage).setOnClickListener { onOperator(it as Button) }
-        findViewById<Button>(R.id.parenthesis).setOnClickListener { onOperator(it as Button) }
-        
+
         // Set up equals click listener
         findViewById<Button>(R.id.equals).setOnClickListener { onEqual() }
-        
+
         // Set up clear click listener
         findViewById<Button>(R.id.clear).setOnClickListener { onClear() }
     }
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     private fun setNumericOnClickListener() {
         val numericButtons = listOf(
             R.id.zero, R.id.one, R.id.two, R.id.three, R.id.four,
-            R.id.five, R.id.six, R.id.seven, R.id.eight, R.id.nine, R.id.zerozero
+            R.id.five, R.id.six, R.id.seven, R.id.eight, R.id.nine
         )
 
         for (id in numericButtons) {
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOperatorOnClickListener() {
         val operatorButtons = listOf(
-            R.id.plus, R.id.subtract, R.id.multiply, R.id.divide, R.id.equals, R.id.dot, R.id.clear, R.id.parenthesis, R.id.percentage
+            R.id.plus, R.id.subtract, R.id.multiply, R.id.divide, R.id.equals, R.id.clear
         )
 
         for (id in operatorButtons) {
@@ -83,25 +83,30 @@ class MainActivity : AppCompatActivity() {
                 R.id.divide -> "/"
                 R.id.plus -> "+"
                 R.id.subtract -> "-"
-                R.id.percentage -> "%"
-                R.id.parenthesis -> "()"
                 else -> view.text
             }
             numberInput.append(operator)
             lastNumeric = false
-            lastDot = false    
+            lastDot = false
         }
     }
 
     private fun onClear() {
+        val previousText = numberInput.text.toString()
         numberInput.setText("")
         lastNumeric = false
         stateError = false
         lastDot = false
+
+        Snackbar.make(numberInput, "Cleared", Snackbar.LENGTH_LONG)
+            .setAction("Undo") {
+                numberInput.setText(previousText)
+            }.show()
     }
 
     private fun onEqual() {
         if (lastNumeric && !stateError) {
+            Toast.makeText(this, "Calculating", Toast.LENGTH_SHORT).show()
             val txt = numberInput.text.toString()
             try {
                 val result = evaluate(txt)
