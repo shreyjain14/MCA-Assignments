@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Management</title>
+</head>
+<body>
+    <h1>Add Product</h1>
+    <form action="/add" method="POST">
+        <select name="category" required>
+            <option value="">Select Category</option>
+            {{range .Categories}}
+                <option value="{{.}}">{{.}}</option>
+            {{end}}
+        </select><br><br>
+        <input type="text" name="name" placeholder="Product Name" required><br><br>
+        <input type="number" name="price" placeholder="Price" step="0.01" required><br><br>
+        <button type="submit">Add Product</button>
+    </form>
+
+    <h2>Products</h2>
+    {{range $category, $products := .Products}}
+        <h3>{{$category}}</h3>
+        <ul>
+        {{range $products}}
+            <li>{{.Name}} - ${{.Price}}</li>
+        {{end}}
+        </ul>
+    {{end}}
+</body>
+</html>
