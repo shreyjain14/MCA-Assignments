@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -14,7 +13,7 @@ type Product struct {
 	Category string
 }
 
-var categories = []string{"Electronics", "Books", "Clothing", "Home"}
+var categories = [4]string{"Electronics", "Books", "Clothing", "Home"}
 
 var products = map[string][]Product{
 	"Electronics": {},
@@ -32,7 +31,7 @@ func main() {
 }
 
 type TemplateData struct {
-	Categories []string
+	Categories [4]string
 	Products   map[string][]Product
 }
 
@@ -59,10 +58,4 @@ func addProductHandler(w http.ResponseWriter, r *http.Request) {
 		products[category] = append(products[category], newProduct)
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	}
-}
-
-func parsePrice(price string) float64 {
-	var p float64
-	fmt.Sscanf(price, "%f", &p)
-	return p
 }
