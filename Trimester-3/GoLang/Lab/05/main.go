@@ -106,7 +106,7 @@ func main() {
 	// nn := NewNeuralNetwork(4, []int{3, 3}, 1, sigmoid, sigmoid)
 	nn := NewNeuralNetwork(4, []int{3, 3}, 1, step, sigmoid)
 
-	input := []float64{0.1, 0.5, -0.3, 0.8}
+	input := []float64{0.1, 0.5, -0.3}
 
 	output, err := nn.FeedForward(input)
 	if err != nil {
