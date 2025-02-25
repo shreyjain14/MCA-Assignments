@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Neural Network Runner</title>
+</head>
+<body>
+    <h1>Configure Neural Network</h1>
+    <form action="/run" method="post">
+        <label for="nodes">Nodes per layer (comma separated):</label>
+        <input type="text" id="nodes" name="nodes" placeholder="4,3,3,1" required><br><br>
+        
+        <label for="hidden_activation">Hidden Activation:</label>
+        <select id="hidden_activation" name="hidden_activation">
+            <option value="sigmoid">sigmoid</option>
+            <option value="step">step</option>
+            <option value="identity">identity</option>
+        </select><br><br>
+        
+        <label for="output_activation">Output Activation:</label>
+        <select id="output_activation" name="output_activation">
+            <option value="sigmoid">sigmoid</option>
+            <option value="step">step</option>
+            <option value="identity">identity</option>
+        </select><br><br>
+        
+        <button type="submit">Run Network</button>
+    </form>
+</body>
+</html>
