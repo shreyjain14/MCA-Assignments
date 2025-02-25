@@ -1,10 +1,14 @@
 package me.shreyjain.cia2.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -23,17 +27,19 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
+import me.shreyjain.cia2.R
 import me.shreyjain.cia2.data.User
 import me.shreyjain.cia2.viewmodel.UserViewModel
 
 @Composable
 fun LoginScreen(
     onNavigateToRegister: () -> Unit,
-    onLoginSuccess: (User) -> Unit,
+    onLoginSuccess: (user: User) -> Unit,
     viewModel: UserViewModel
 ) {
     var email by remember { mutableStateOf("") }
@@ -51,12 +57,7 @@ fun LoginScreen(
     LaunchedEffect(loginState) {
         when (loginState) {
             is UserViewModel.LoginState.Success -> {
-                val user = (loginState as UserViewModel.LoginState.Success).user
-                scope.launch {
-                    snackbarHostState.showSnackbar("Login successful!")
-                }
-                // Navigate to the task list
-                onLoginSuccess(user)
+                onLoginSuccess((loginState as UserViewModel.LoginState.Success).user)
             }
             is UserViewModel.LoginState.Error -> {
                 scope.launch {
@@ -74,12 +75,21 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            // Logo at the top of the form
+            Image(
+                painter = painterResource(id = R.drawable.logo),
+                contentDescription = "App Logo",
+                modifier = Modifier
+                    .size(150.dp)
+                    .padding(bottom = 32.dp)
+            )
+            
             Text(
-                text = "Login",
+                text = "Welcome Back",
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 24.dp)
             )
@@ -88,39 +98,39 @@ fun LoginScreen(
                 value = email,
                 onValueChange = { email = it },
                 label = { Text("Email") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
+                modifier = Modifier.fillMaxWidth()
             )
+            
+            Spacer(modifier = Modifier.height(16.dp))
             
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
                 label = { Text("Password") },
                 visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
+                modifier = Modifier.fillMaxWidth()
             )
+            
+            Spacer(modifier = Modifier.height(24.dp))
             
             Button(
                 onClick = { viewModel.attemptLogin(email, password) },
-                enabled = loginState !is UserViewModel.LoginState.Loading && email.isNotBlank() && password.isNotBlank(),
+                enabled = loginState !is UserViewModel.LoginState.Loading,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 if (loginState is UserViewModel.LoginState.Loading) {
                     CircularProgressIndicator(
-                        modifier = Modifier.padding(end = 8.dp),
-                        color = MaterialTheme.colorScheme.onPrimary
+                        modifier = Modifier.size(24.dp),
+                        strokeWidth = 2.dp
                     )
+                } else {
+                    Text("Login")
                 }
-                Text("Login")
             }
             
-            TextButton(
-                onClick = onNavigateToRegister,
-                modifier = Modifier.padding(top = 8.dp)
-            ) {
+            Spacer(modifier = Modifier.height(16.dp))
+            
+            TextButton(onClick = onNavigateToRegister) {
                 Text("Don't have an account? Register")
             }
         }
