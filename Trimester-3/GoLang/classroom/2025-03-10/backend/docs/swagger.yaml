@@ -1,0 +1,172 @@
+openapi: 3.0.0
+info:
+  title: Banking API
+  description: API for a banking application with account management and transactions
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+    description: Local development server
+paths:
+  /users:
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+      responses:
+        "201":
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Bad request
+  /accounts:
+    post:
+      summary: Create a new account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAccountRequest"
+      responses:
+        "201":
+          description: Account created successfully
+  /users/{user_id}/accounts:
+    get:
+      summary: Get all accounts for a user
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Accounts retrieved successfully
+  /accounts/{account_id}:
+    get:
+      summary: Get a specific account
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Account retrieved successfully
+  /accounts/{account_id}/deposit:
+    post:
+      summary: Deposit money to an account
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionRequest"
+      responses:
+        "200":
+          description: Deposit successful
+  /accounts/{account_id}/withdraw:
+    post:
+      summary: Withdraw money from an account
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TransactionRequest"
+      responses:
+        "200":
+          description: Withdrawal successful
+  /accounts/{account_id}/transactions:
+    get:
+      summary: Get transaction history for an account
+      parameters:
+        - name: account_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Transactions retrieved successfully
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+    AccountModel:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_id:
+          type: integer
+        account_type:
+          type: string
+        balance:
+          type: number
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+        account_id:
+          type: integer
+        type:
+          type: string
+        amount:
+          type: number
+        timestamp:
+          type: string
+    CreateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+    CreateAccountRequest:
+      type: object
+      properties:
+        user_id:
+          type: integer
+        account_type:
+          type: string
+        initial_balance:
+          type: number
+    TransactionRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
