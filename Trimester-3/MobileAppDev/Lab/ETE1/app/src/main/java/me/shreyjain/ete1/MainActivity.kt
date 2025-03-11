@@ -8,14 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.airbnb.lottie.LottieAnimationView
+// Remove import until dependency is fixed
+// import com.airbnb.lottie.LottieAnimationView
 import me.shreyjain.ete1.databinding.ActivityMainBinding
 import me.shreyjain.ete1.databinding.CustomAppBarBinding
 import me.shreyjain.ete1.util.AnimationUtils
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var lottieAnimationView: LottieAnimationView
+    // Temporarily comment out LottieAnimationView
+    // private lateinit var lottieAnimationView: LottieAnimationView
     private lateinit var appBarTitle: TextView
     private var currentDestinationId: Int = 0
     private var previousDestinationId: Int = 0
@@ -70,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.navigation_social -> {
                     // Special animation when social tab is reselected
-                    playTransitionAnimation(R.raw.share_animation)
+                    // playTransitionAnimation(R.raw.share_animation)
                     appBarTitle.text = "SHARE REVELATIONS"
                 }
             }
@@ -79,12 +81,12 @@ class MainActivity : AppCompatActivity() {
     
     private fun initializeAppBar() {
         // Access the views directly through the binding instead of using findViewById
-        lottieAnimationView = binding.customAppBar.lottieAnimationView
+        // lottieAnimationView = binding.customAppBar.lottieAnimationView
         appBarTitle = binding.customAppBar.appBarTitle
         
         // Set default animation
-        lottieAnimationView.setAnimation(R.raw.loading_animation)
-        lottieAnimationView.playAnimation()
+        // lottieAnimationView.setAnimation(R.raw.loading_animation)
+        // lottieAnimationView.playAnimation()
     }
     
     private fun updateAppBar(destinationId: Int) {
@@ -92,31 +94,31 @@ class MainActivity : AppCompatActivity() {
         when (destinationId) {
             R.id.navigation_home -> {
                 appBarTitle.text = "REVELATIONS HOME"
-                playTransitionAnimation(R.raw.pulse_animation)
+                // playTransitionAnimation(R.raw.pulse_animation)
             }
             R.id.navigation_events -> {
                 appBarTitle.text = "EVENTS"
-                playTransitionAnimation(R.raw.loading_animation)
+                // playTransitionAnimation(R.raw.loading_animation)
             }
             R.id.navigation_gallery -> {
                 appBarTitle.text = "GALLERY"
-                playTransitionAnimation(R.raw.pulse_animation)
+                // playTransitionAnimation(R.raw.pulse_animation)
             }
             R.id.navigation_social -> {
                 appBarTitle.text = "SHARE REVELATIONS"
-                playTransitionAnimation(R.raw.share_animation)
+                // playTransitionAnimation(R.raw.share_animation)
             }
             R.id.navigation_profile -> {
                 appBarTitle.text = "PROFILE"
-                playTransitionAnimation(R.raw.pulse_animation)
+                // playTransitionAnimation(R.raw.pulse_animation)
             }
         }
     }
     
-    private fun playTransitionAnimation(animationRes: Int) {
-        // Use the smooth transition animation from our utility class
-        AnimationUtils.changeLottieAnimation(lottieAnimationView, animationRes)
-    }
+    // private fun playTransitionAnimation(animationRes: Int) {
+    //     // Use the smooth transition animation from our utility class
+    //     AnimationUtils.changeLottieAnimation(lottieAnimationView, animationRes)
+    // }
     
     private fun applyTheme() {
         val sharedPrefs = getSharedPreferences("app_prefs", Context.MODE_PRIVATE)

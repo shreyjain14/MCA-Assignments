@@ -5,17 +5,16 @@
     android:layout_height="?attr/actionBarSize"
     android:background="@color/design_default_color_primary">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lottieAnimationView"
+    <!-- Temporarily replace LottieAnimationView with ImageView -->
+    <ImageView
+        android:id="@+id/appIcon"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
+        android:src="@android:drawable/ic_menu_compass"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_rawRes="@raw/loading_animation" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/appBarTitle"
@@ -27,7 +26,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/lottieAnimationView"
+        app:layout_constraintStart_toEndOf="@id/appIcon"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout> 

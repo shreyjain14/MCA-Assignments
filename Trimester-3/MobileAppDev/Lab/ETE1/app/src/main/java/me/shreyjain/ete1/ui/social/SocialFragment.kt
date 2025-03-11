@@ -8,8 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.airbnb.lottie.LottieAnimationView
-import com.airbnb.lottie.LottieDrawable
+// Remove imports temporarily
+// import com.airbnb.lottie.LottieAnimationView
+// import com.airbnb.lottie.LottieDrawable
 import me.shreyjain.ete1.R
 import me.shreyjain.ete1.databinding.FragmentSocialBinding
 import me.shreyjain.ete1.util.AnimationUtils
@@ -32,7 +33,7 @@ class SocialFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         
         setupShareButtons()
-        setupShareAnimation()
+        // setupShareAnimation()
         
         // Show share dialog on first navigation to this tab with a short delay
         if (isFirstLoad) {
@@ -65,6 +66,8 @@ class SocialFragment : Fragment() {
         }
     }
     
+    // Temporarily comment out
+    /*
     private fun setupShareAnimation() {
         // Setup the share animation
         binding.shareAnimation.apply {
@@ -73,6 +76,7 @@ class SocialFragment : Fragment() {
             playAnimation()
         }
     }
+    */
     
     private fun shareToSocialMedia(platform: String) {
         // Create the share message
@@ -105,7 +109,7 @@ class SocialFragment : Fragment() {
         startActivity(shareIntent)
         
         // Play animation effect
-        animateShareEffect()
+        // animateShareEffect()
     }
     
     private fun buildShareMessage(platform: String = ""): String {
@@ -119,6 +123,8 @@ class SocialFragment : Fragment() {
         }
     }
     
+    // Temporarily comment out
+    /*
     private fun animateShareEffect() {
         // Create a circular reveal animation when sharing
         val centerX = binding.shareAnimation.width / 2
@@ -137,6 +143,7 @@ class SocialFragment : Fragment() {
         binding.shareAnimation.visibility = View.VISIBLE
         animator.start()
     }
+    */
 
     override fun onDestroyView() {
         super.onDestroyView()
