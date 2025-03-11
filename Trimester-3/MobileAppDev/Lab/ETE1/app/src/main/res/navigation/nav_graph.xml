@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="me.shreyjain.ete1.ui.auth.LoginFragment"
+        android:label="Login">
+        <action
+            android:id="@+id/action_login_to_register"
+            app:destination="@id/registerFragment" />
+        <action
+            android:id="@+id/action_login_to_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="me.shreyjain.ete1.ui.auth.RegisterFragment"
+        android:label="Register">
+        <action
+            android:id="@+id/action_register_to_login"
+            app:destination="@id/loginFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="me.shreyjain.ete1.ui.home.HomeFragment"
+        android:label="Home">
+        <action
+            android:id="@+id/action_home_to_fullscreen"
+            app:destination="@id/fullscreenImageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_events"
+        android:name="me.shreyjain.ete1.ui.events.EventsFragment"
+        android:label="Events" />
+
+    <fragment
+        android:id="@+id/navigation_gallery"
+        android:name="me.shreyjain.ete1.ui.gallery.GalleryFragment"
+        android:label="Gallery">
+        <action
+            android:id="@+id/action_gallery_to_fullscreen"
+            app:destination="@id/fullscreenImageFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_social"
+        android:name="me.shreyjain.ete1.ui.social.SocialFragment"
+        android:label="Social" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="me.shreyjain.ete1.ui.profile.ProfileFragment"
+        android:label="Profile" />
+        
+    <fragment
+        android:id="@+id/fullscreenImageFragment"
+        android:name="me.shreyjain.ete1.ui.gallery.FullscreenImageFragment"
+        android:label="Fullscreen Image">
+        <argument
+            android:name="image_uri"
+            app:argType="string" />
+    </fragment>
+
+</navigation> 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select Event Category"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <CheckBox
+        android:id="@+id/checkboxHighlights"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Highlights"
+        android:padding="8dp" />
+
+    <CheckBox
+        android:id="@+id/checkboxCulturalFest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cultural Fest"
+        android:padding="8dp" />
+        
+    <CheckBox
+        android:id="@+id/checkboxTechnicalSymposium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Technical Symposium"
+        android:padding="8dp" />
+        
+    <CheckBox
+        android:id="@+id/checkboxInnovationSummit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Innovation Summit"
+        android:padding="8dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginTop="16dp">
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+</LinearLayout> 
