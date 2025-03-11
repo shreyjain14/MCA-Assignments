@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var lottieAnimationView: LottieAnimationView
     private lateinit var appBarTitle: TextView
     private var currentDestinationId: Int = 0
+    private var previousDestinationId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +36,12 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
+        // Set up bottom navigation with the NavController
         binding.bottomNavigation.setupWithNavController(navController)
 
         // Hide bottom navigation and app bar on auth screens
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            val previousDestinationId = currentDestinationId
+            previousDestinationId = currentDestinationId
             currentDestinationId = destination.id
             
             when (destination.id) {
@@ -59,6 +61,17 @@ class MainActivity : AppCompatActivity() {
                     if (previousDestinationId != destination.id) {
                         updateAppBar(destination.id)
                     }
+                }
+            }
+        }
+        
+        // Add item reselected listener for special animations
+        binding.bottomNavigation.setOnItemReselectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_social -> {
+                    // Special animation when social tab is reselected
+                    playTransitionAnimation(R.raw.share_animation)
+                    appBarTitle.text = "SHARE REVELATIONS"
                 }
             }
         }
@@ -90,8 +103,8 @@ class MainActivity : AppCompatActivity() {
                 playTransitionAnimation(R.raw.pulse_animation)
             }
             R.id.navigation_social -> {
-                appBarTitle.text = "SOCIAL"
-                playTransitionAnimation(R.raw.loading_animation)
+                appBarTitle.text = "SHARE REVELATIONS"
+                playTransitionAnimation(R.raw.share_animation)
             }
             R.id.navigation_profile -> {
                 appBarTitle.text = "PROFILE"
