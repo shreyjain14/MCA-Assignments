@@ -70,6 +70,21 @@ func loadProductsFromJSON(filename string) error {
 	return nil
 }
 
+// Save products to JSON file
+func saveProductsToJSON(filename string) error {
+	data, err := json.MarshalIndent(productList, "", "  ")
+	if err != nil {
+		return fmt.Errorf("error marshaling products: %v", err)
+	}
+
+	err = os.WriteFile(filename, data, 0644)
+	if err != nil {
+		return fmt.Errorf("error writing file: %v", err)
+	}
+
+	return nil
+}
+
 // Create the product list tab
 func createProductListTab() fyne.CanvasObject {
 	productListContainer := container.NewVBox()
@@ -171,6 +186,9 @@ func addToCart(product Product, quantity int) {
 	// Update cart totals
 	updateCartTotals()
 
+	// Save the updated stock data to JSON
+	_ = saveProductsToJSON("data.json")
+
 	// Update cart display if global references are set
 	if globalCartContent != nil && globalTotalLabel != nil {
 		updateCartDisplay(globalCartContent, globalTotalLabel)
@@ -215,15 +233,20 @@ func createCartTab() fyne.CanvasObject {
 			return
 		}
 
-		dialog.ShowInformation("Order Placed", "Thank you for your order!", mainWindow)
+		// Save updated stock to JSON file
+		err := saveProductsToJSON("data.json")
+		if err != nil {
+			dialog.ShowError(fmt.Errorf("failed to save product data: %v", err), mainWindow)
+			return
+		}
+
+		dialog.ShowInformation("Order Placed", "Thank you for your order! Stock data has been updated.", mainWindow)
 
 		// Reset cart after checkout
 		cart.Items = []Product{}
 		cart.TotalItems = 0
 		cart.TotalPrice = 0
 		totalLabel.SetText(fmt.Sprintf("Total: $%.2f", cart.TotalPrice))
-
-		// Return all items to inventory - removed items are already added back
 
 		// Update cart display
 		updateCartDisplay(cartContent, totalLabel)
@@ -299,6 +322,10 @@ func updateCartDisplay(cartContent *fyne.Container, totalLabel *widget.Label) {
 					cart.Items = append(cart.Items[:index], cart.Items[index+1:]...)
 					updateCartTotals()
 					totalLabel.SetText(fmt.Sprintf("Total: $%.2f", cart.TotalPrice))
+
+					// Save updated stock data
+					_ = saveProductsToJSON("data.json")
+
 					updateCartDisplay(cartContent, totalLabel)
 				}
 			})
