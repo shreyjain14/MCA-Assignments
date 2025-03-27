@@ -2,47 +2,20 @@
   "products": [
     {
       "id": 1,
-      "name": "Laptop",
-      "description": "High-performance laptop for work and gaming",
-      "price": 999.99,
-      "stock": 14,
-      "category": "Electronics",
+      "name": "Test Product 1",
+      "description": "Test Description 1",
+      "price": 10.99,
+      "stock": 10,
+      "category": "Test Category",
       "Quantity": 0
     },
     {
       "id": 2,
-      "name": "Smartphone",
-      "description": "Latest smartphone with advanced camera",
-      "price": 699.99,
-      "stock": 25,
-      "category": "Electronics",
-      "Quantity": 0
-    },
-    {
-      "id": 3,
-      "name": "Headphones",
-      "description": "Noise-cancelling wireless headphones",
-      "price": 199.99,
-      "stock": 30,
-      "category": "Audio",
-      "Quantity": 0
-    },
-    {
-      "id": 4,
-      "name": "Coffee Maker",
-      "description": "Automatic coffee maker with timer",
-      "price": 89.99,
-      "stock": 12,
-      "category": "Home Appliances",
-      "Quantity": 0
-    },
-    {
-      "id": 5,
-      "name": "Backpack",
-      "description": "Waterproof backpack with laptop compartment",
-      "price": 59.99,
+      "name": "Test Product 2",
+      "description": "Test Description 2",
+      "price": 20.99,
       "stock": 20,
-      "category": "Accessories",
+      "category": "Test Category",
       "Quantity": 0
     }
   ]
