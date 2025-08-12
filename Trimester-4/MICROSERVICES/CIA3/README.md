@@ -1,4 +1,4 @@
-# Job Board Microservices (FastAPI + PostgreSQL)
+# Job Board Microservices (FastAPI + PostgreSQL + Docker)
 
 A minimal microservice-based Job Board application built with FastAPI and PostgreSQL. No Docker required.
 
