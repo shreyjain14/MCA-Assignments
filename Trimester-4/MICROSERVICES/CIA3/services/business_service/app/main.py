@@ -1,10 +1,14 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
+import hashlib
+import json
+import grpc
 
 from .db import Base, engine, get_db
 from .models import Company, Job
 from .schemas import CompanyUpsert, CompanyOut, JobCreate, JobOut
 from .auth import require_business
+from .config import settings
 
 app = FastAPI(title="Business Service")
 
@@ -12,6 +16,27 @@ app = FastAPI(title="Business Service")
 @app.on_event("startup")
 def on_startup():
     Base.metadata.create_all(bind=engine)
+
+
+@app.get("/_debug/jwt")
+def debug_jwt_secret_hash():
+    digest = hashlib.sha256(settings.jwt_secret.encode("utf-8")).hexdigest()
+    return {"alg": "HS256", "secret_digest": digest, "auth_grpc_addr": settings.auth_grpc_addr}
+
+
+@app.get("/_debug/auth_grpc")
+def debug_auth_grpc_connectivity():
+    try:
+        with grpc.insecure_channel(settings.auth_grpc_addr) as channel:
+            stub = channel.unary_unary(
+                "/auth.AuthService/VerifyToken",
+                request_serializer=lambda d: json.dumps(d).encode("utf-8"),
+                response_deserializer=lambda b: json.loads(b.decode("utf-8")),
+            )
+            resp = stub({"token": ""})
+            return {"reachable": True, "response": resp}
+    except grpc.RpcError as e:
+        return {"reachable": False, "error": str(e)}
 
 
 @app.post("/companies", response_model=CompanyOut)
