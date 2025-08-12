@@ -1,0 +1,55 @@
+type Application {
+  id: Int!
+  userId: Int!
+  jobId: Int!
+  resumeText: String!
+}
+
+type Company {
+  userId: Int!
+  name: String!
+  description: String
+}
+
+type Job {
+  id: Int!
+  ownerUserId: Int!
+  title: String!
+  description: String!
+  location: String
+  isActive: Boolean!
+}
+
+type Mutation {
+  register(email: String!, password: String!, role: String!): User!
+  login(email: String!, password: String!): Token!
+  upsertProfile(fullName: String!, bio: String = null): Profile!
+  applyToJob(jobId: Int!, resumeText: String!): Application!
+  createCompany(name: String!, description: String = null): Company!
+  createJob(title: String!, description: String!, location: String = null, isActive: Boolean! = true): Job!
+}
+
+type Profile {
+  userId: Int!
+  fullName: String!
+  bio: String
+}
+
+type Query {
+  me: User
+  jobs: [Job!]!
+  job(id: Int!): Job
+  myApplications: [Application!]!
+  myProfile: Profile
+}
+
+type Token {
+  accessToken: String!
+  tokenType: String!
+}
+
+type User {
+  id: Int!
+  email: String!
+  role: String!
+}
