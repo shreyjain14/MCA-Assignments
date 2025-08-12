@@ -48,8 +48,6 @@ Configuration notes:
 Production build (frontend):
 - Current image runs Next.js in dev mode for convenience. For production, adjust `frontend/Dockerfile` to build and run `npm run start`.
 
-## Manual run (no Docker)
-- Already documented above in Quickstart: create DBs, set `.env` files, `pip install -r requirements.txt`, run `uvicorn`, and use the scripts in `scripts/*.bat`.
 
 ## Deploy to AWS EC2 (Docker)
 
@@ -67,8 +65,8 @@ sudo usermod -aG docker $USER && newgrp docker
 ```
 3) Clone and run:
 ```bash
-git clone <your-repo-url>
-cd CIA3
+git clone https://github.com/shreyjain14/MCA-Assignments.git
+cd Trimester-4/MICROSERVICES/CIA3
 # optional: edit docker-compose.yml
 # - set strong JWT_SECRET values
 # - set gateway CORS_ORIGINS to include your origin, e.g., http://<ip-or-domain>:3000
