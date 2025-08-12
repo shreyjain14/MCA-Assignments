@@ -1,4 +1,4 @@
-version: "3.9"
+# version: "3.9"
 
 services:
   db:
@@ -78,7 +78,7 @@ services:
       JOBSEEKER_BASE_URL: http://jobseeker:8002
       BUSINESS_BASE_URL: http://business:8003
       ADMIN_BASE_URL: http://admin:8004
-      CORS_ORIGINS: http://localhost:3000
+      CORS_ORIGINS: http://localhost:3000, http://localhost:3001
     depends_on:
       - auth
       - jobseeker

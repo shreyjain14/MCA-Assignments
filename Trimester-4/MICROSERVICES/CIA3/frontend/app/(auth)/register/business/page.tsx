@@ -14,6 +14,17 @@ const REGISTER = gql`
   }
 `;
 
+type RegisterResponse = { register: { id: number; email: string; role: string } };
+
+function getErrorMessage(err: unknown): string {
+  if (typeof err === "string") return err;
+  if (err && typeof err === "object") {
+    const anyErr = err as { response?: { errors?: Array<{ message?: string }> }; message?: string };
+    return anyErr.response?.errors?.[0]?.message ?? anyErr.message ?? "Request failed";
+  }
+  return "Request failed";
+}
+
 export default function RegisterBusinessPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,10 +36,10 @@ export default function RegisterBusinessPage() {
     setError(null); setOk(false);
     try {
       const client = new GraphQLClient(endpoint);
-      await client.request(REGISTER, { email, password });
+      await client.request<RegisterResponse>(REGISTER, { email, password });
       setOk(true);
-    } catch (err: any) {
-      setError(err?.response?.errors?.[0]?.message ?? err.message ?? "Registration failed");
+    } catch (err: unknown) {
+      setError(getErrorMessage(err));
     }
   };
 

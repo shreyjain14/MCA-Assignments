@@ -16,15 +16,26 @@ const CREATE_JOB = gql`
 const JOBS = gql`query { jobs { id title } }`;
 const JOB_APPS = gql`query Apps($jobId: Int!) { jobApplications(jobId: $jobId) { id userId resumeText } }`;
 
-type JobsResponse = { jobs: Array<{ id: number; title: string }>; };
-type AppsResponse = { jobApplications: Array<{ id: number; userId: number; resumeText: string }>; };
+type Job = { id: number; title: string };
+type JobsResponse = { jobs: Job[] };
+type Application = { id: number; userId: number; resumeText: string };
+type AppsResponse = { jobApplications: Application[] };
+
+function getErrorMessage(err: unknown): string {
+  if (typeof err === "string") return err;
+  if (err && typeof err === "object") {
+    const anyErr = err as { response?: { errors?: Array<{ message?: string }> }; message?: string };
+    return anyErr.response?.errors?.[0]?.message ?? anyErr.message ?? "Request failed";
+  }
+  return "Request failed";
+}
 
 export default function BusinessJobsPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [location, setLocation] = useState("");
-  const [jobs, setJobs] = useState<any[]>([]);
-  const [apps, setApps] = useState<Record<number, any[]>>({});
+  const [jobs, setJobs] = useState<Job[]>([]);
+  const [apps, setApps] = useState<Record<number, Application[]>>({});
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -34,8 +45,8 @@ export default function BusinessJobsPage() {
         await client.request(ME);
         const data = await client.request<JobsResponse>(JOBS);
         setJobs(data.jobs ?? []);
-      } catch (err: any) {
-        setError(err?.response?.errors?.[0]?.message ?? err.message);
+      } catch (err: unknown) {
+        setError(getErrorMessage(err));
       }
     })();
   }, []);
@@ -48,7 +59,7 @@ export default function BusinessJobsPage() {
       const data = await client.request<JobsResponse>(JOBS);
       setJobs(data.jobs ?? []);
       setTitle(""); setDescription(""); setLocation("");
-    } catch (err: any) { setError(err?.response?.errors?.[0]?.message ?? err.message); }
+    } catch (err: unknown) { setError(getErrorMessage(err)); }
   };
 
   const loadApps = async (jobId: number) => {
@@ -56,7 +67,7 @@ export default function BusinessJobsPage() {
       const client = createClient();
       const data = await client.request<AppsResponse>(JOB_APPS, { jobId });
       setApps((prev) => ({ ...prev, [jobId]: data.jobApplications ?? [] }));
-    } catch (err: any) { setError(err?.response?.errors?.[0]?.message ?? err.message); }
+    } catch (err: unknown) { setError(getErrorMessage(err)); }
   };
 
   return (
@@ -81,7 +92,7 @@ export default function BusinessJobsPage() {
             <CardContent>
               <Button variant="outline" onClick={() => loadApps(job.id)}>View Applications</Button>
               <ul className="mt-3 space-y-1">
-                {(apps[job.id] ?? []).map((a: any) => (
+                {(apps[job.id] ?? []).map((a) => (
                   <li key={a.id} className="text-sm">Applicant #{a.userId}: {a.resumeText.slice(0, 60)}</li>
                 ))}
               </ul>

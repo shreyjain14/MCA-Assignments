@@ -16,18 +16,28 @@ const APPLY = gql`
   }
 `;
 
+type Job = { id: number; title: string; description: string; isActive: boolean };
+function getErrorMessage(err: unknown): string {
+  if (typeof err === "string") return err;
+  if (err && typeof err === "object") {
+    const anyErr = err as { response?: { errors?: Array<{ message?: string }> }; message?: string };
+    return anyErr.response?.errors?.[0]?.message ?? anyErr.message ?? "Request failed";
+  }
+  return "Request failed";
+}
+
 export default function JobsPage() {
-  const [jobs, setJobs] = useState<any[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
       try {
         const client = createClient();
-        const data = await client.request(QUERY);
+        const data = await client.request<{ jobs: Job[] }>(QUERY);
         setJobs(data.jobs ?? []);
-      } catch (err: any) {
-        setError(err?.response?.errors?.[0]?.message ?? err.message);
+      } catch (err: unknown) {
+        setError(getErrorMessage(err));
       }
     })();
   }, []);
@@ -38,8 +48,8 @@ export default function JobsPage() {
       const client = createClient();
       await client.request(APPLY, { jobId: id, resumeText: "My resume" });
       alert("Applied!");
-    } catch (err: any) {
-      setError(err?.response?.errors?.[0]?.message ?? err.message);
+    } catch (err: unknown) {
+      setError(getErrorMessage(err));
     }
   };
 

@@ -20,6 +20,15 @@ const LOGIN = gql`
 
 type LoginResponse = { login: { accessToken: string; tokenType: string } };
 
+function getErrorMessage(err: unknown): string {
+  if (typeof err === "string") return err;
+  if (err && typeof err === "object") {
+    const anyErr = err as { response?: { errors?: Array<{ message?: string }> }; message?: string };
+    return anyErr.response?.errors?.[0]?.message ?? anyErr.message ?? "Request failed";
+  }
+  return "Request failed";
+}
+
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -34,8 +43,8 @@ export default function LoginPage() {
       const token = data.login.accessToken;
       Cookies.set("token", token, { sameSite: "lax" });
       window.location.href = "/";
-    } catch (err: any) {
-      setError(err?.response?.errors?.[0]?.message ?? err.message ?? "Login failed");
+    } catch (err: unknown) {
+      setError(getErrorMessage(err));
     }
   };
 
