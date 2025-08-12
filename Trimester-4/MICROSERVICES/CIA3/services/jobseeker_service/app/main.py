@@ -8,7 +8,7 @@ import grpc
 from .db import Base, engine, get_db
 from .models import JobseekerProfile, Application
 from .schemas import ProfileUpsert, ProfileOut, ApplicationCreate, ApplicationOut
-from .auth import require_jobseeker
+from .auth import require_jobseeker, assert_job_exists
 from .config import settings
 
 app = FastAPI(title="Jobseeker Service")
@@ -65,6 +65,7 @@ def upsert_my_profile(payload: ProfileUpsert, actor=Depends(require_jobseeker), 
 
 @app.post("/applications", response_model=ApplicationOut)
 def create_application(payload: ApplicationCreate, actor=Depends(require_jobseeker), db: Session = Depends(get_db)):
+    assert_job_exists(payload.job_id)
     application = Application(user_id=actor.sub, job_id=payload.job_id, resume_text=payload.resume_text)
     db.add(application)
     db.commit()

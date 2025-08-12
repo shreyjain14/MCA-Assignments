@@ -9,19 +9,31 @@ from .models import Company, Job
 from .schemas import CompanyUpsert, CompanyOut, JobCreate, JobOut
 from .auth import require_business
 from .config import settings
+from .grpc_server import GrpcServer
 
 app = FastAPI(title="Business Service")
+_grpc: GrpcServer | None = None
 
 
 @app.on_event("startup")
 def on_startup():
     Base.metadata.create_all(bind=engine)
+    global _grpc
+    _grpc = GrpcServer(settings.grpc_bind)
+    _grpc.start()
+
+
+@app.on_event("shutdown")
+def on_shutdown():
+    global _grpc
+    if _grpc:
+        _grpc.stop()
 
 
 @app.get("/_debug/jwt")
 def debug_jwt_secret_hash():
     digest = hashlib.sha256(settings.jwt_secret.encode("utf-8")).hexdigest()
-    return {"alg": "HS256", "secret_digest": digest, "auth_grpc_addr": settings.auth_grpc_addr}
+    return {"alg": "HS256", "secret_digest": digest, "auth_grpc_addr": settings.auth_grpc_addr, "grpc": settings.grpc_bind}
 
 
 @app.get("/_debug/auth_grpc")

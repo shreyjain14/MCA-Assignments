@@ -31,3 +31,18 @@ def require_jobseeker(token: str = Depends(oauth2_scheme)) -> TokenPayload:
     if payload.role != "jobseeker":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Jobseeker role required")
     return payload
+
+
+def assert_job_exists(job_id: int) -> None:
+    try:
+        with grpc.insecure_channel(settings.business_grpc_addr) as channel:
+            stub = channel.unary_unary(
+                "/business.JobService/GetJob",
+                request_serializer=lambda d: json.dumps(d).encode("utf-8"),
+                response_deserializer=lambda b: json.loads(b.decode("utf-8")),
+            )
+            resp = stub({"job_id": job_id})
+            if not resp.get("found"):
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Job not found")
+    except grpc.RpcError:
+        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="Business service unavailable")
