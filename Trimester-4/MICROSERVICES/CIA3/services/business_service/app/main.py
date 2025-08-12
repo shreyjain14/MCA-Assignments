@@ -94,3 +94,25 @@ def get_job(job_id: int, db: Session = Depends(get_db)):
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
     return job
+
+
+@app.get("/jobs/{job_id}/applications")
+def list_job_applications(job_id: int, actor=Depends(require_business), db: Session = Depends(get_db)):
+    job = db.query(Job).filter(Job.id == job_id).first()
+    if not job:
+        raise HTTPException(status_code=404, detail="Job not found")
+    if job.owner_user_id != actor.sub:
+        raise HTTPException(status_code=403, detail="Not your job")
+
+    # Call Jobseeker gRPC to list applications for this job
+    try:
+        with grpc.insecure_channel(settings.jobseeker_grpc_addr) as channel:
+            stub = channel.unary_unary(
+                "/jobseeker.ApplicationService/ListApplicationsForJob",
+                request_serializer=lambda d: json.dumps(d).encode("utf-8"),
+                response_deserializer=lambda b: json.loads(b.decode("utf-8")),
+            )
+            resp = stub({"job_id": job_id})
+            return resp.get("applications", [])
+    except grpc.RpcError:
+        raise HTTPException(status_code=503, detail="Jobseeker service unavailable")

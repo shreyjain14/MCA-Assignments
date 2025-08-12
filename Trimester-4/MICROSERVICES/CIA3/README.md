@@ -3,13 +3,13 @@
 A minimal microservice-based Job Board application built with FastAPI and PostgreSQL. No Docker required.
 
 Services:
-- Auth Service: user registration, login, JWT issuance
+- Auth Service: user registration, login, JWT issuance (also provides gRPC token verification)
 - Jobseeker Service: jobseeker profiles and applications
-- Business Service: company and job postings
+- Business Service: company and job postings (also provides gRPC job lookups and owner views)
 - Admin Service: user management (roles) via auth database
 - Gateway Service: GraphQL API over the other services using REST (mounted at `/graphql`)
 
-Each service runs independently with its own FastAPI app and database. JWT is shared across services using a common secret or validated centrally via Auth (gRPC). The GraphQL gateway forwards Authorization headers to the underlying REST services.
+Each service runs independently with its own FastAPI app and database. JWT can be shared across services using the same secret or validated centrally via Auth (gRPC). The GraphQL gateway forwards Authorization headers to the underlying REST services.
 
 ## Quickstart
 
@@ -39,7 +39,7 @@ Copy `env.example` to `.env` inside each service folder and set values:
 - `JWT_SECRET` for each service (can differ when using gRPC verification)
 - Auth: `GRPC_BIND` (default `0.0.0.0:50051`)
 - Business: `GRPC_BIND` (default `0.0.0.0:50052`)
-- Jobseeker: `BUSINESS_GRPC_ADDR` (default `localhost:50052`)
+- Jobseeker: `GRPC_BIND` (default `0.0.0.0:50053`), `BUSINESS_GRPC_ADDR` (default `localhost:50052`)
 - Gateway: base URLs for services:
   - `AUTH_BASE_URL=http://localhost:8001`
   - `JOBSEEKER_BASE_URL=http://localhost:8002`
@@ -82,24 +82,110 @@ Or use the .bat scripts in `scripts/`, including `run_gateway.bat`.
 
 On first run, each service will create its own tables automatically.
 
-## API Overview
+## REST API Reference
 
-### GraphQL Gateway (port 8000)
-Endpoint: `/graphql`
-- Query `me` (requires Authorization header)
-- Query `jobs`, `job(id)`
-- Query `myApplications`, `myProfile` (requires Authorization header)
-- Mutation `register(email, password, role)`
-- Mutation `login(email, password)` returns `access_token`
-- Mutation `upsertProfile(full_name, bio)` (requires Authorization header)
-- Mutation `applyToJob(job_id, resume_text)` (requires Authorization header)
-- Mutation `createCompany(name, description)` (business role)
-- Mutation `createJob(title, description, location, is_active)` (business role)
+### Auth Service (http://localhost:8001)
+- `POST /register` — Register user
+  - body: `{ "email": string, "password": string, "role": "jobseeker|business|admin" }`
+  - 201: `User`
+- `POST /login` — Login and receive JWT
+  - body: `{ "email": string, "password": string }`
+  - 200: `{ "access_token": string, "token_type": "bearer" }`
+- `GET /me` — Current user (requires `Authorization: Bearer <token>`) → `User`
+- Debug (optional): `GET /_debug/jwt` → `{ secret_digest, grpc }`
 
-The gateway forwards the `Authorization` header to the respective REST services.
+### Jobseeker Service (http://localhost:8002)
+- `GET /profiles/me` — Get current jobseeker profile (role: jobseeker) → `Profile`
+- `PUT /profiles/me` — Upsert profile (role: jobseeker)
+  - body: `{ "full_name": string, "bio": string | null }`
+  - 200: `Profile`
+- `POST /applications` — Apply to a job (role: jobseeker)
+  - body: `{ "job_id": number, "resume_text": string }`
+  - Validates job existence via Business gRPC
+  - 201: `Application`
+- `GET /applications` — List my applications (role: jobseeker) → `Application[]`
+- Debug (optional): `GET /_debug/jwt`, `GET /_debug/auth_grpc`
 
-### Other services
-See sections above for each service’s REST endpoints.
+### Business Service (http://localhost:8003)
+- `POST /companies` — Create or update company (role: business)
+  - body: `{ "name": string, "description": string | null }`
+  - 200: `Company`
+- `GET /companies/me` — Get my company (role: business) → `Company`
+- `POST /jobs` — Create job (role: business)
+  - body: `{ "title": string, "description": string, "location": string | null, "is_active": boolean }`
+  - 201: `Job`
+- `GET /jobs` — Public list jobs → `Job[]`
+- `GET /jobs/{job_id}` — Public get job by id → `Job`
+- `GET /jobs/{job_id}/applications` — List applications for a job (role: business; must be owner)
+  - returns: `Application[]`
+- Debug (optional): `GET /_debug/jwt`, `GET /_debug/auth_grpc`
+
+### Admin Service (http://localhost:8004)
+- `GET /users` — List users (role: admin) → `User[]`
+- `PATCH /users/{user_id}/role` — Change user role (role: admin)
+  - body: `{ "role": "jobseeker|business|admin" }`
+  - 200: `User`
+- Debug (optional): `GET /_debug/jwt`, `GET /_debug/auth_grpc`
+
+## GraphQL Gateway (http://localhost:8000/graphql)
+
+Notes:
+- Field names are camelCased by default (e.g., `accessToken`, `tokenType`).
+- Send `Authorization: Bearer <token>` for protected queries/mutations.
+
+### Types
+- `type User { id: Int!, email: String!, role: String! }`
+- `type Job { id: Int!, ownerUserId: Int!, title: String!, description: String!, location: String, isActive: Boolean! }`
+- `type Profile { userId: Int!, fullName: String!, bio: String }`
+- `type Application { id: Int!, userId: Int!, jobId: Int!, resumeText: String! }`
+- `type Company { userId: Int!, name: String!, description: String }`
+- `type Token { accessToken: String!, tokenType: String! }`
+
+### Queries
+- `me: User` — current user
+- `jobs: [Job!]!` — public job list
+- `job(id: Int!): Job` — job by id
+- `myApplications: [Application!]!` — current user’s applications (jobseeker)
+- `myProfile: Profile` — current user’s profile (jobseeker)
+
+Example:
+```graphql
+query {
+  me { id email role }
+  jobs { id title isActive }
+  job(id: 1) { id title description }
+}
+```
+
+### Mutations
+- `register(email: String!, password: String!, role: String!): User!`
+- `login(email: String!, password: String!): Token!`
+- `upsertProfile(fullName: String!, bio: String): Profile!` (jobseeker)
+- `applyToJob(jobId: Int!, resumeText: String!): Application!` (jobseeker)
+- `createCompany(name: String!, description: String): Company!` (business)
+- `createJob(title: String!, description: String!, location: String, isActive: Boolean = true): Job!` (business)
+
+Examples:
+```graphql
+mutation {
+  login(email: "you@example.com", password: "pass") { accessToken tokenType }
+}
+```
+```graphql
+mutation {
+  upsertProfile(fullName: "Jane Doe", bio: "Golang dev") { userId fullName }
+}
+```
+```graphql
+mutation {
+  applyToJob(jobId: 1, resumeText: "Here is my resume") { id jobId userId }
+}
+```
+```graphql
+mutation {
+  createJob(title: "SDE", description: "Work on APIs", location: "Remote", isActive: true) { id title }
+}
+```
 
 ## Notes
 - With gRPC verification, services can have different `JWT_SECRET` values; only Auth’s secret is authoritative.
@@ -107,3 +193,4 @@ See sections above for each service’s REST endpoints.
 
 ## Troubleshooting
 - If GraphQL calls fail, check the base URLs in the gateway `.env` and ensure the target services are running.
+- For token issues, verify Auth’s `/_debug/jwt` and the other services’ `/_debug/jwt`/`/_debug/auth_grpc` endpoints.

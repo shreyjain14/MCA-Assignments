@@ -10,13 +10,25 @@ from .models import JobseekerProfile, Application
 from .schemas import ProfileUpsert, ProfileOut, ApplicationCreate, ApplicationOut
 from .auth import require_jobseeker, assert_job_exists
 from .config import settings
+from .grpc_server import GrpcServer
 
 app = FastAPI(title="Jobseeker Service")
+_grpc: GrpcServer | None = None
 
 
 @app.on_event("startup")
 def on_startup():
     Base.metadata.create_all(bind=engine)
+    global _grpc
+    _grpc = GrpcServer(settings.grpc_bind)
+    _grpc.start()
+
+
+@app.on_event("shutdown")
+def on_shutdown():
+    global _grpc
+    if _grpc:
+        _grpc.stop()
 
 
 @app.get("/_debug/jwt")

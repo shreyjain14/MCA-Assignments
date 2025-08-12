@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     app_name: str = "Business Service"
     auth_grpc_addr: str = Field("localhost:50051", alias="AUTH_GRPC_ADDR")
     grpc_bind: str = Field("0.0.0.0:50052", alias="GRPC_BIND")
+    jobseeker_grpc_addr: str = Field("localhost:50053", alias="JOBSEEKER_GRPC_ADDR")
 
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=False)
 
