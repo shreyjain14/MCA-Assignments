@@ -11,7 +11,82 @@ Services:
 
 Each service runs independently with its own FastAPI app and database. JWT can be shared across services using the same secret or validated centrally via Auth (gRPC). The GraphQL gateway forwards Authorization headers to the underlying REST services.
 
-## Quickstart
+## Run with Docker
+
+- Prerequisites: Docker Desktop (or Docker Engine + Compose v2)
+
+Steps:
+1) Build and start all services (PostgreSQL, microservices, gateway, frontend):
+```bash
+docker compose up -d --build
+```
+2) Open:
+- Frontend: http://localhost:3000
+- GraphQL: http://localhost:8000/graphql
+- REST docs: http://localhost:8001/docs, http://localhost:8002/docs, http://localhost:8003/docs, http://localhost:8004/docs
+
+3) Logs and lifecycle:
+```bash
+# follow logs for selected services
+docker compose logs -f gateway frontend
+
+# rebuild one service
+docker compose up -d --build gateway
+
+# stop everything
+docker compose down
+
+# stop and remove DB volume (resets data)
+docker compose down -v
+```
+
+Configuration notes:
+- The Compose file sets service-to-service URLs and gRPC addresses automatically. You can change JWT secrets and CORS in `docker-compose.yml`.
+- To allow additional frontend origins, set `gateway.environment.CORS_ORIGINS` to a comma-separated list (e.g., `http://localhost:3000,http://localhost:3001`).
+- Databases are created on first run via `scripts/init.sql`.
+
+Production build (frontend):
+- Current image runs Next.js in dev mode for convenience. For production, adjust `frontend/Dockerfile` to build and run `npm run start`.
+
+## Manual run (no Docker)
+- Already documented above in Quickstart: create DBs, set `.env` files, `pip install -r requirements.txt`, run `uvicorn`, and use the scripts in `scripts/*.bat`.
+
+## Deploy to AWS EC2 (Docker)
+
+1) Provision an Ubuntu EC2 instance and open security group ports you need (e.g., 3000, 8000; avoid exposing 5432).
+2) SSH in and install Docker + Compose:
+```bash
+sudo apt-get update -y && sudo apt-get install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+sudo apt-get update -y
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo systemctl enable --now docker
+sudo usermod -aG docker $USER && newgrp docker
+```
+3) Clone and run:
+```bash
+git clone <your-repo-url>
+cd CIA3
+# optional: edit docker-compose.yml
+# - set strong JWT_SECRET values
+# - set gateway CORS_ORIGINS to include your origin, e.g., http://<ip-or-domain>:3000
+# - set frontend NEXT_PUBLIC_GATEWAY_URL to http://<ip-or-domain>:8000/graphql
+
+docker compose pull
+docker compose up -d --build
+```
+4) Visit:
+- Frontend: `http://<ip-or-domain>:3000`
+- GraphQL: `http://<ip-or-domain>:8000/graphql`
+
+Troubleshooting:
+- CORS: add your exact frontend origin to `CORS_ORIGINS` and rebuild gateway: `docker compose up -d --build gateway`
+- Logs: `docker compose logs -f gateway frontend`
+- Rebuild all: `docker compose up -d --build`
+
+## Run Manually
 
 ### 1) Prerequisites
 - Python 3.10+
