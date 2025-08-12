@@ -24,8 +24,6 @@ export default function Navbar() {
         <div className="ml-auto flex gap-3">
           <Link href="/jobseeker/jobs">Jobs</Link>
           <Link href="/jobseeker/applications">My Applications</Link>
-          <Link href="/business/jobs">Business</Link>
-          <Link href="/admin/users">Admin</Link>
           {!authed ? (
             <Link href="/login">Login</Link>
           ) : (
