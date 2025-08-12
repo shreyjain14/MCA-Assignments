@@ -1,0 +1,100 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  auth:
+    build: ./services/auth_service
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/auth_db
+      JWT_SECRET: supersecret_auth
+      JWT_EXPIRES_MINUTES: 60
+      GRPC_BIND: 0.0.0.0:50051
+    depends_on:
+      - db
+    ports:
+      - "8001:8001"
+      - "50051:50051"
+
+  business:
+    build: ./services/business_service
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/business_db
+      JWT_SECRET: supersecret_business
+      JWT_EXPIRES_MINUTES: 60
+      AUTH_GRPC_ADDR: auth:50051
+      GRPC_BIND: 0.0.0.0:50052
+      JOBSEEKER_GRPC_ADDR: jobseeker:50053
+    depends_on:
+      - db
+      - auth
+    ports:
+      - "8003:8003"
+      - "50052:50052"
+
+  jobseeker:
+    build: ./services/jobseeker_service
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/jobseeker_db
+      JWT_SECRET: supersecret_jobseeker
+      JWT_EXPIRES_MINUTES: 60
+      AUTH_GRPC_ADDR: auth:50051
+      BUSINESS_GRPC_ADDR: business:50052
+      GRPC_BIND: 0.0.0.0:50053
+    depends_on:
+      - db
+      - auth
+      - business
+    ports:
+      - "8002:8002"
+      - "50053:50053"
+
+  admin:
+    build: ./services/admin_service
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/auth_db
+      JWT_SECRET: supersecret_admin
+      JWT_EXPIRES_MINUTES: 60
+      AUTH_GRPC_ADDR: auth:50051
+    depends_on:
+      - db
+      - auth
+    ports:
+      - "8004:8004"
+
+  gateway:
+    build: ./services/gateway_service
+    environment:
+      AUTH_BASE_URL: http://auth:8001
+      JOBSEEKER_BASE_URL: http://jobseeker:8002
+      BUSINESS_BASE_URL: http://business:8003
+      ADMIN_BASE_URL: http://admin:8004
+      CORS_ORIGINS: http://localhost:3000
+    depends_on:
+      - auth
+      - jobseeker
+      - business
+      - admin
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    environment:
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:8000/graphql
+    depends_on:
+      - gateway
+    ports:
+      - "3000:3000"
+
+volumes:
+  db_data:
