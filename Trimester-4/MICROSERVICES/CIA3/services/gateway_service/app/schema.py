@@ -40,6 +40,13 @@ class Application:
 
 
 @strawberry.type
+class Company:
+    user_id: int
+    name: str
+    description: Optional[str]
+
+
+@strawberry.type
 class Token:
     access_token: str
     token_type: str
@@ -72,7 +79,7 @@ class Query:
         try:
             data = await _get(client, f"{settings.auth_base_url}/me", authorization)
             return User(**data)
-        except httpx.HTTPStatusError as exc:
+        except httpx.HTTPStatusError:
             return None
 
     @strawberry.field
@@ -91,6 +98,13 @@ class Query:
             return None
 
     @strawberry.field
+    async def job_applications(self, info, job_id: int) -> List[Application]:
+        client: httpx.AsyncClient = info.context["client"]
+        authorization: Optional[str] = info.context.get("authorization")
+        data = await _get(client, f"{settings.business_base_url}/jobs/{job_id}/applications", authorization)
+        return [Application(**item) for item in data]
+
+    @strawberry.field
     async def my_applications(self, info) -> List[Application]:
         client: httpx.AsyncClient = info.context["client"]
         authorization: Optional[str] = info.context.get("authorization")
@@ -106,6 +120,13 @@ class Query:
             return Profile(**data)
         except httpx.HTTPStatusError:
             return None
+
+    @strawberry.field
+    async def admin_users(self, info) -> List[User]:
+        client: httpx.AsyncClient = info.context["client"]
+        authorization: Optional[str] = info.context.get("authorization")
+        data = await _get(client, f"{settings.admin_base_url}/users", authorization)
+        return [User(**item) for item in data]
 
 
 @strawberry.type
@@ -137,7 +158,7 @@ class Mutation:
         return Application(**data)
 
     @strawberry.mutation
-    async def create_company(self, info, name: str, description: Optional[str] = None) -> "Company":
+    async def create_company(self, info, name: str, description: Optional[str] = None) -> Company:
         client: httpx.AsyncClient = info.context["client"]
         authorization: Optional[str] = info.context.get("authorization")
         data = await _post(client, f"{settings.business_base_url}/companies", {"name": name, "description": description}, authorization)
@@ -150,12 +171,14 @@ class Mutation:
         data = await _post(client, f"{settings.business_base_url}/jobs", {"title": title, "description": description, "location": location, "is_active": is_active}, authorization)
         return Job(**data)
 
-
-@strawberry.type
-class Company:
-    user_id: int
-    name: str
-    description: Optional[str]
+    @strawberry.mutation
+    async def admin_change_role(self, info, user_id: int, role: str) -> User:
+        client: httpx.AsyncClient = info.context["client"]
+        authorization: Optional[str] = info.context.get("authorization")
+        resp = await client.patch(f"{settings.admin_base_url}/users/{user_id}/role", json={"role": role}, headers=auth_header(authorization))
+        resp.raise_for_status()
+        data = resp.json()
+        return User(**data)
 
 
 schema = strawberry.Schema(query=Query, mutation=Mutation)
