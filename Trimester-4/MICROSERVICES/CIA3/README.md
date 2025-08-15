@@ -66,7 +66,7 @@ sudo usermod -aG docker $USER && newgrp docker
 3) Clone and run:
 ```bash
 git clone https://github.com/shreyjain14/MCA-Assignments.git
-cd Trimester-4/MICROSERVICES/CIA3
+cd MCA-Assignments/Trimester-4/MICROSERVICES/CIA3
 # optional: edit docker-compose.yml
 # - set strong JWT_SECRET values
 # - set gateway CORS_ORIGINS to include your origin, e.g., http://<ip-or-domain>:3000
