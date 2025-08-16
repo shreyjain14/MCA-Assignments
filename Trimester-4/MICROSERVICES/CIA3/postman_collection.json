@@ -1,0 +1,484 @@
+{
+	"info": {
+		"_postman_id": "e52555ea-baa0-42ab-a13c-752012914007",
+		"name": "Microservices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38416264"
+	},
+	"item": [
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "debug",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{adminURL}}/{{connectDebug}}",
+							"host": [
+								"{{adminURL}}"
+							],
+							"path": [
+								"{{connectDebug}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{adminURL}}/users",
+							"host": [
+								"{{adminURL}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "chnage role",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{adminURL}}/users/1/role",
+							"host": [
+								"{{adminURL}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"role"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"shrey1@shreyjain.me\",\r\n    \"password\": \"shreyjain\",\r\n    \"role\": \"business\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authURL}}/register",
+							"host": [
+								"{{authURL}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"shrey1@shreyjain.me\",\r\n    \"password\": \"shreyjain\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{authURL}}/login",
+							"host": [
+								"{{authURL}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{authURL}}/me",
+							"host": [
+								"{{authURL}}"
+							],
+							"path": [
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "debug",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{authURL}}/_debug/jwt",
+							"host": [
+								"{{authURL}}"
+							],
+							"path": [
+								"_debug",
+								"jwt"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JobSeeker",
+			"item": [
+				{
+					"name": "connect debug",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{jobURL}}/{{connectDebug}}",
+							"host": [
+								"{{jobURL}}"
+							],
+							"path": [
+								"{{connectDebug}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "my profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{jobURL}}/profiles/me",
+							"host": [
+								"{{jobURL}}"
+							],
+							"path": [
+								"profiles",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update profle",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"full_name\": \"Shrey Jain\",\r\n    \"bio\": \"i made this\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{jobURL}}/profiles/me",
+							"host": [
+								"{{jobURL}}"
+							],
+							"path": [
+								"profiles",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "applications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{jobURL}}/applications",
+							"host": [
+								"{{jobURL}}"
+							],
+							"path": [
+								"applications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "apply for jjob",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"job_id\": 1,\r\n    \"resume_text\": \"this is my reusme\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{jobURL}}/applications",
+							"host": [
+								"{{jobURL}}"
+							],
+							"path": [
+								"applications"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Business",
+			"item": [
+				{
+					"name": "connect debug",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{busURL}}/{{connectDebug}}",
+							"host": [
+								"{{busURL}}"
+							],
+							"path": [
+								"{{connectDebug}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create or update company",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Shrey's Business\",\r\n    \"description\": \"This is shrey's business\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{busURL}}/companies",
+							"host": [
+								"{{busURL}}"
+							],
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get company data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{busURL}}/companies/me",
+							"host": [
+								"{{busURL}}"
+							],
+							"path": [
+								"companies",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get jobs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{busURL}}/jobs",
+							"host": [
+								"{{busURL}}"
+							],
+							"path": [
+								"jobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get jobs by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{busURL}}/jobs/1",
+							"host": [
+								"{{busURL}}"
+							],
+							"path": [
+								"jobs",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "make a new job",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"SWE 1\", \r\n    \"description\": \"Python\", \r\n    \"location\": \"delhi\", \r\n    \"is_active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{busURL}}/jobs",
+							"host": [
+								"{{busURL}}"
+							],
+							"path": [
+								"jobs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get applications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{busURL}}/jobs/1/applications",
+							"host": [
+								"{{busURL}}"
+							],
+							"path": [
+								"jobs",
+								"1",
+								"applications"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJzaHJleTFAc2hyZXlqYWluLm1lIiwicm9sZSI6ImJ1c2luZXNzIiwiZXhwIjoxNzU1MDI0MjAyfQ.y58ROXBBx00V2rsmt-Z8SoBycRtzRmG_dyOU5xAbzzU",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "authURL",
+			"value": "localhost:8001",
+			"type": "default"
+		},
+		{
+			"key": "adminURL",
+			"value": "localhost:8004",
+			"type": "string"
+		},
+		{
+			"key": "connectDebug",
+			"value": "_debug/auth_grpc",
+			"type": "string"
+		},
+		{
+			"key": "busURL",
+			"value": "localhost:8003",
+			"type": "string"
+		},
+		{
+			"key": "jobURL",
+			"value": "localhost:8002",
+			"type": "string"
+		}
+	]
+}
