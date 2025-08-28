@@ -3,6 +3,7 @@ Configuration settings for the Streamlit application
 """
 
 import streamlit as st
+import os
 
 def setup_page_config():
     """Setup Streamlit page configuration"""
@@ -15,7 +16,8 @@ def setup_page_config():
 
 # Application constants
 APP_TITLE = "Production Time Analysis Dashboard"
-DATA_FILE = "production_time_dataset.csv"
+# Get the path to the CSV file relative to the main project directory
+DATA_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "production_time_dataset.csv")
 
 # Color scheme
 COLORS = {
